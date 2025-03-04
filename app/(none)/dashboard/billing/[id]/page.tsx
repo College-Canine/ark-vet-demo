@@ -1,13 +1,14 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { format } from "date-fns"
-import { Badge } from "@/components/ui/badge"
-import { DetailView } from "@/components/detail-view"
-import { DetailItem } from "@/components/detail-item"
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { format } from "date-fns";
+import { Badge } from "@/components/ui/badge";
+import { DetailView } from "@/components/detail-view";
+import { DetailItem } from "@/components/detail-item";
 
 // Mock data function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getInvoice = (id: string) => {
   return {
     id: "INV001",
@@ -22,38 +23,53 @@ const getInvoice = (id: string) => {
     amount: 150.0,
     status: "Paid",
     items: [
-      { description: "Annual checkup", quantity: 1, unitPrice: 100.0, total: 100.0 },
-      { description: "Vaccinations", quantity: 1, unitPrice: 50.0, total: 50.0 },
+      {
+        description: "Annual checkup",
+        quantity: 1,
+        unitPrice: 100.0,
+        total: 100.0,
+      },
+      {
+        description: "Vaccinations",
+        quantity: 1,
+        unitPrice: 50.0,
+        total: 50.0,
+      },
     ],
     notes: "Thank you for your business!",
     paymentMethod: "Credit Card",
     paymentDate: new Date(2023, 5, 15),
-  }
-}
+  };
+};
 
-export default function InvoiceDetailPage({ params }: { params: { id: string } }) {
-  const router = useRouter()
-  const [invoice, setInvoice] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
+export default function InvoiceDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const router = useRouter();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [invoice, setInvoice] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // In a real app, this would be an API call
-    const data = getInvoice(params.id)
-    setInvoice(data)
-    setLoading(false)
-  }, [params.id])
+    const data = getInvoice(params.id);
+    setInvoice(data);
+    setLoading(false);
+  }, [params.id]);
 
   const handleDelete = () => {
     // In a real app, this would be an API call
-    router.push("/dashboard/billing")
-  }
+    router.push("/dashboard/billing");
+  };
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   if (!invoice) {
-    return <div>Invoice not found</div>
+    return <div>Invoice not found</div>;
   }
 
   return (
@@ -69,9 +85,18 @@ export default function InvoiceDetailPage({ params }: { params: { id: string } }
           <h3 className="text-lg font-medium">Invoice Information</h3>
           <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <DetailItem label="Invoice ID" value={invoice.id} />
-            <DetailItem label="Date" value={format(invoice.date, "MMMM d, yyyy")} />
-            <DetailItem label="Due Date" value={format(invoice.dueDate, "MMMM d, yyyy")} />
-            <DetailItem label="Amount" value={`$${invoice.amount.toFixed(2)}`} />
+            <DetailItem
+              label="Date"
+              value={format(invoice.date, "MMMM d, yyyy")}
+            />
+            <DetailItem
+              label="Due Date"
+              value={format(invoice.dueDate, "MMMM d, yyyy")}
+            />
+            <DetailItem
+              label="Amount"
+              value={`$${invoice.amount.toFixed(2)}`}
+            />
             <DetailItem
               label="Status"
               value={
@@ -80,10 +105,10 @@ export default function InvoiceDetailPage({ params }: { params: { id: string } }
                     invoice.status === "Paid"
                       ? "bg-green-100 text-green-800"
                       : invoice.status === "Pending"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : invoice.status === "Overdue"
-                          ? "bg-red-100 text-red-800"
-                          : "bg-gray-100 text-gray-800"
+                      ? "bg-yellow-100 text-yellow-800"
+                      : invoice.status === "Overdue"
+                      ? "bg-red-100 text-red-800"
+                      : "bg-gray-100 text-gray-800"
                   }
                 >
                   {invoice.status}
@@ -132,14 +157,25 @@ export default function InvoiceDetailPage({ params }: { params: { id: string } }
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {invoice.items.map((item: any, index: number) => (
-                  <tr key={index}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">{item.description}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">{item.quantity}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">${item.unitPrice.toFixed(2)}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">${item.total.toFixed(2)}</td>
-                  </tr>
-                ))}
+                {
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  invoice.items.map((item: any, index: number) => (
+                    <tr key={index}>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm">
+                        {item.description}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm">
+                        {item.quantity}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm">
+                        ${item.unitPrice.toFixed(2)}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm">
+                        ${item.total.toFixed(2)}
+                      </td>
+                    </tr>
+                  ))
+                }
               </tbody>
             </table>
           </div>
@@ -149,7 +185,10 @@ export default function InvoiceDetailPage({ params }: { params: { id: string } }
           <h3 className="text-lg font-medium">Payment Information</h3>
           <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <DetailItem label="Payment Method" value={invoice.paymentMethod} />
-            <DetailItem label="Payment Date" value={format(invoice.paymentDate, "MMMM d, yyyy")} />
+            <DetailItem
+              label="Payment Date"
+              value={format(invoice.paymentDate, "MMMM d, yyyy")}
+            />
           </div>
         </div>
 
@@ -161,6 +200,5 @@ export default function InvoiceDetailPage({ params }: { params: { id: string } }
         </div>
       </div>
     </DetailView>
-  )
+  );
 }
-

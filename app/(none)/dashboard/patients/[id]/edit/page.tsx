@@ -1,17 +1,24 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { FormLayout } from "@/components/form-layout"
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { FormLayout } from "@/components/form-layout";
 
 // Mock data function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getPatient = (id: string) => {
   return {
     id: "P001",
@@ -28,11 +35,15 @@ const getPatient = (id: string) => {
     ownerPhone: "(555) 123-4567",
     ownerEmail: "john.smith@example.com",
     ownerAddress: "123 Main St, Anytown, CA 12345",
-  }
-}
+  };
+};
 
-export default function EditPatientPage({ params }: { params: { id: string } }) {
-  const router = useRouter()
+export default function EditPatientPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     id: "",
     name: "",
@@ -48,35 +59,37 @@ export default function EditPatientPage({ params }: { params: { id: string } }) 
     ownerPhone: "",
     ownerEmail: "",
     ownerAddress: "",
-  })
-  const [loading, setLoading] = useState(true)
+  });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // In a real app, this would be an API call
-    const data = getPatient(params.id)
+    const data = getPatient(params.id);
     if (data) {
-      setFormData(data)
+      setFormData(data);
     }
-    setLoading(false)
-  }, [params.id])
+    setLoading(false);
+  }, [params.id]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSelectChange = (name: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // In a real app, this would be an API call
-    router.push(`/dashboard/patients/${params.id}`)
-  }
+    router.push(`/dashboard/patients/${params.id}`);
+  };
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   return (
@@ -89,18 +102,33 @@ export default function EditPatientPage({ params }: { params: { id: string } }) 
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="name">Name</Label>
-            <Input id="name" name="name" value={formData.name} onChange={handleChange} required />
+            <Input
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="id">ID</Label>
-            <Input id="id" name="id" value={formData.id} onChange={handleChange} disabled />
+            <Input
+              id="id"
+              name="id"
+              value={formData.id}
+              onChange={handleChange}
+              disabled
+            />
           </div>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="type">Type</Label>
-            <Select value={formData.type} onValueChange={(value) => handleSelectChange("type", value)}>
+            <Select
+              value={formData.type}
+              onValueChange={(value) => handleSelectChange("type", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select type" />
               </SelectTrigger>
@@ -115,7 +143,13 @@ export default function EditPatientPage({ params }: { params: { id: string } }) 
           </div>
           <div className="space-y-2">
             <Label htmlFor="breed">Breed</Label>
-            <Input id="breed" name="breed" value={formData.breed} onChange={handleChange} required />
+            <Input
+              id="breed"
+              name="breed"
+              value={formData.breed}
+              onChange={handleChange}
+              required
+            />
           </div>
         </div>
 
@@ -133,7 +167,10 @@ export default function EditPatientPage({ params }: { params: { id: string } }) 
           </div>
           <div className="space-y-2">
             <Label htmlFor="gender">Gender</Label>
-            <Select value={formData.gender} onValueChange={(value) => handleSelectChange("gender", value)}>
+            <Select
+              value={formData.gender}
+              onValueChange={(value) => handleSelectChange("gender", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select gender" />
               </SelectTrigger>
@@ -145,7 +182,12 @@ export default function EditPatientPage({ params }: { params: { id: string } }) 
           </div>
           <div className="space-y-2">
             <Label htmlFor="color">Color</Label>
-            <Input id="color" name="color" value={formData.color} onChange={handleChange} />
+            <Input
+              id="color"
+              name="color"
+              value={formData.color}
+              onChange={handleChange}
+            />
           </div>
         </div>
 
@@ -173,7 +215,10 @@ export default function EditPatientPage({ params }: { params: { id: string } }) 
           </div>
           <div className="space-y-2">
             <Label htmlFor="status">Status</Label>
-            <Select value={formData.status} onValueChange={(value) => handleSelectChange("status", value)}>
+            <Select
+              value={formData.status}
+              onValueChange={(value) => handleSelectChange("status", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
@@ -190,11 +235,23 @@ export default function EditPatientPage({ params }: { params: { id: string } }) 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="ownerName">Owner Name</Label>
-              <Input id="ownerName" name="ownerName" value={formData.ownerName} onChange={handleChange} required />
+              <Input
+                id="ownerName"
+                name="ownerName"
+                value={formData.ownerName}
+                onChange={handleChange}
+                required
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="ownerPhone">Owner Phone</Label>
-              <Input id="ownerPhone" name="ownerPhone" value={formData.ownerPhone} onChange={handleChange} required />
+              <Input
+                id="ownerPhone"
+                name="ownerPhone"
+                value={formData.ownerPhone}
+                onChange={handleChange}
+                required
+              />
             </div>
           </div>
           <div className="mt-4 space-y-2">
@@ -229,6 +286,5 @@ export default function EditPatientPage({ params }: { params: { id: string } }) 
         </div>
       </form>
     </FormLayout>
-  )
+  );
 }
-

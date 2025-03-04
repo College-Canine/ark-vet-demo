@@ -1,17 +1,24 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { FormLayout } from "@/components/form-layout"
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { FormLayout } from "@/components/form-layout";
 
 // Mock data function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getInventoryItem = (id: string) => {
   return {
     id: "INV001",
@@ -28,11 +35,15 @@ const getInventoryItem = (id: string) => {
     expirationDate: "2024-06-01",
     location: "Storage Room A, Shelf 2",
     notes: "Handle with care. Keep refrigerated.",
-  }
-}
+  };
+};
 
-export default function EditInventoryItemPage({ params }: { params: { id: string } }) {
-  const router = useRouter()
+export default function EditInventoryItemPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     id: "",
     name: "",
@@ -48,35 +59,37 @@ export default function EditInventoryItemPage({ params }: { params: { id: string
     expirationDate: "",
     location: "",
     notes: "",
-  })
-  const [loading, setLoading] = useState(true)
+  });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // In a real app, this would be an API call
-    const data = getInventoryItem(params.id)
+    const data = getInventoryItem(params.id);
     if (data) {
-      setFormData(data)
+      setFormData(data);
     }
-    setLoading(false)
-  }, [params.id])
+    setLoading(false);
+  }, [params.id]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSelectChange = (name: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // In a real app, this would be an API call
-    router.push(`/dashboard/inventory/${params.id}`)
-  }
+    router.push(`/dashboard/inventory/${params.id}`);
+  };
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   return (
@@ -89,22 +102,43 @@ export default function EditInventoryItemPage({ params }: { params: { id: string
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="id">Item ID</Label>
-            <Input id="id" name="id" value={formData.id} onChange={handleChange} disabled />
+            <Input
+              id="id"
+              name="id"
+              value={formData.id}
+              onChange={handleChange}
+              disabled
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="name">Name</Label>
-            <Input id="name" name="name" value={formData.name} onChange={handleChange} required />
+            <Input
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
           </div>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="category">Category</Label>
-            <Input id="category" name="category" value={formData.category} onChange={handleChange} required />
+            <Input
+              id="category"
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="status">Status</Label>
-            <Select value={formData.status} onValueChange={(value) => handleSelectChange("status", value)}>
+            <Select
+              value={formData.status}
+              onValueChange={(value) => handleSelectChange("status", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
@@ -119,7 +153,13 @@ export default function EditInventoryItemPage({ params }: { params: { id: string
 
         <div className="space-y-2">
           <Label htmlFor="description">Description</Label>
-          <Textarea id="description" name="description" value={formData.description} onChange={handleChange} rows={3} />
+          <Textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            rows={3}
+          />
         </div>
 
         <div className="grid gap-4 sm:grid-cols-3">
@@ -136,7 +176,13 @@ export default function EditInventoryItemPage({ params }: { params: { id: string
           </div>
           <div className="space-y-2">
             <Label htmlFor="unit">Unit</Label>
-            <Input id="unit" name="unit" value={formData.unit} onChange={handleChange} required />
+            <Input
+              id="unit"
+              name="unit"
+              value={formData.unit}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="reorderPoint">Reorder Point</Label>
@@ -154,7 +200,12 @@ export default function EditInventoryItemPage({ params }: { params: { id: string
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="supplier">Supplier</Label>
-            <Input id="supplier" name="supplier" value={formData.supplier} onChange={handleChange} />
+            <Input
+              id="supplier"
+              name="supplier"
+              value={formData.supplier}
+              onChange={handleChange}
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="supplierContact">Supplier Contact</Label>
@@ -192,12 +243,23 @@ export default function EditInventoryItemPage({ params }: { params: { id: string
 
         <div className="space-y-2">
           <Label htmlFor="location">Location</Label>
-          <Input id="location" name="location" value={formData.location} onChange={handleChange} />
+          <Input
+            id="location"
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+          />
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="notes">Notes</Label>
-          <Textarea id="notes" name="notes" value={formData.notes} onChange={handleChange} rows={3} />
+          <Textarea
+            id="notes"
+            name="notes"
+            value={formData.notes}
+            onChange={handleChange}
+            rows={3}
+          />
         </div>
 
         <div className="flex justify-end gap-2">
@@ -208,6 +270,5 @@ export default function EditInventoryItemPage({ params }: { params: { id: string
         </div>
       </form>
     </FormLayout>
-  )
+  );
 }
-

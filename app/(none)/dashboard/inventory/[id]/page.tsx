@@ -1,13 +1,14 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { format } from "date-fns"
-import { Badge } from "@/components/ui/badge"
-import { DetailView } from "@/components/detail-view"
-import { DetailItem } from "@/components/detail-item"
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { format } from "date-fns";
+import { Badge } from "@/components/ui/badge";
+import { DetailView } from "@/components/detail-view";
+import { DetailItem } from "@/components/detail-item";
 
 // Mock data function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getInventoryItem = (id: string) => {
   return {
     id: "INV001",
@@ -24,32 +25,37 @@ const getInventoryItem = (id: string) => {
     expirationDate: new Date(2024, 5, 1),
     location: "Storage Room A, Shelf 2",
     notes: "Handle with care. Keep refrigerated.",
-  }
-}
+  };
+};
 
-export default function InventoryItemDetailPage({ params }: { params: { id: string } }) {
-  const router = useRouter()
-  const [item, setItem] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
+export default function InventoryItemDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const router = useRouter();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [item, setItem] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // In a real app, this would be an API call
-    const data = getInventoryItem(params.id)
-    setItem(data)
-    setLoading(false)
-  }, [params.id])
+    const data = getInventoryItem(params.id);
+    setItem(data);
+    setLoading(false);
+  }, [params.id]);
 
   const handleDelete = () => {
     // In a real app, this would be an API call
-    router.push("/dashboard/inventory")
-  }
+    router.push("/dashboard/inventory");
+  };
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   if (!item) {
-    return <div>Inventory item not found</div>
+    return <div>Inventory item not found</div>;
   }
 
   return (
@@ -67,7 +73,10 @@ export default function InventoryItemDetailPage({ params }: { params: { id: stri
             <DetailItem label="Item ID" value={item.id} />
             <DetailItem label="Name" value={item.name} />
             <DetailItem label="Category" value={item.category} />
-            <DetailItem label="Quantity" value={`${item.quantity} ${item.unit}`} />
+            <DetailItem
+              label="Quantity"
+              value={`${item.quantity} ${item.unit}`}
+            />
             <DetailItem label="Reorder Point" value={item.reorderPoint} />
             <DetailItem
               label="Status"
@@ -77,10 +86,10 @@ export default function InventoryItemDetailPage({ params }: { params: { id: stri
                     item.status === "In Stock"
                       ? "bg-green-100 text-green-800"
                       : item.status === "Low Stock"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : item.status === "Out of Stock"
-                          ? "bg-red-100 text-red-800"
-                          : "bg-gray-100 text-gray-800"
+                      ? "bg-yellow-100 text-yellow-800"
+                      : item.status === "Out of Stock"
+                      ? "bg-red-100 text-red-800"
+                      : "bg-gray-100 text-gray-800"
                   }
                 >
                   {item.status}
@@ -108,8 +117,14 @@ export default function InventoryItemDetailPage({ params }: { params: { id: stri
         <div>
           <h3 className="text-lg font-medium">Dates</h3>
           <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <DetailItem label="Last Restock Date" value={format(item.lastRestockDate, "MMMM d, yyyy")} />
-            <DetailItem label="Expiration Date" value={format(item.expirationDate, "MMMM d, yyyy")} />
+            <DetailItem
+              label="Last Restock Date"
+              value={format(item.lastRestockDate, "MMMM d, yyyy")}
+            />
+            <DetailItem
+              label="Expiration Date"
+              value={format(item.expirationDate, "MMMM d, yyyy")}
+            />
           </div>
         </div>
 
@@ -128,6 +143,5 @@ export default function InventoryItemDetailPage({ params }: { params: { id: stri
         </div>
       </div>
     </DetailView>
-  )
+  );
 }
-

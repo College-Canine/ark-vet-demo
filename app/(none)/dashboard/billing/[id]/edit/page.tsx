@@ -1,17 +1,24 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { FormLayout } from "@/components/form-layout"
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { FormLayout } from "@/components/form-layout";
 
 // Mock data function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getInvoice = (id: string) => {
   return {
     id: "INV001",
@@ -32,11 +39,15 @@ const getInvoice = (id: string) => {
     notes: "Thank you for your business!",
     paymentMethod: "Credit Card",
     paymentDate: "2023-06-15",
-  }
-}
+  };
+};
 
-export default function EditInvoicePage({ params }: { params: { id: string } }) {
-  const router = useRouter()
+export default function EditInvoicePage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     id: "",
     date: "",
@@ -53,77 +64,106 @@ export default function EditInvoicePage({ params }: { params: { id: string } }) 
     notes: "",
     paymentMethod: "",
     paymentDate: "",
-  })
-  const [loading, setLoading] = useState(true)
+  });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // In a real app, this would be an API call
-    const data = getInvoice(params.id)
+    const data = getInvoice(params.id);
     if (data) {
-      setFormData(data)
+      setFormData(data);
     }
-    setLoading(false)
-  }, [params.id])
+    setLoading(false);
+  }, [params.id]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSelectChange = (name: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleItemChange = (index: number, field: string, value: string) => {
-    const newItems = [...formData.items]
-    newItems[index] = { ...newItems[index], [field]: value }
-    setFormData((prev) => ({ ...prev, items: newItems }))
-  }
+    const newItems = [...formData.items];
+    newItems[index] = { ...newItems[index], [field]: value };
+    setFormData((prev) => ({ ...prev, items: newItems }));
+  };
 
   const addItem = () => {
     setFormData((prev) => ({
       ...prev,
       items: [...prev.items, { description: "", quantity: "", unitPrice: "" }],
-    }))
-  }
+    }));
+  };
 
   const removeItem = (index: number) => {
-    const newItems = formData.items.filter((_, i) => i !== index)
-    setFormData((prev) => ({ ...prev, items: newItems }))
-  }
+    const newItems = formData.items.filter((_, i) => i !== index);
+    setFormData((prev) => ({ ...prev, items: newItems }));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // In a real app, this would be an API call
-    router.push(`/dashboard/billing/${params.id}`)
-  }
+    router.push(`/dashboard/billing/${params.id}`);
+  };
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   return (
-    <FormLayout title="Edit Invoice" description={`Invoice #${params.id}`} backHref={`/dashboard/billing/${params.id}`}>
+    <FormLayout
+      title="Edit Invoice"
+      description={`Invoice #${params.id}`}
+      backHref={`/dashboard/billing/${params.id}`}
+    >
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="id">Invoice ID</Label>
-            <Input id="id" name="id" value={formData.id} onChange={handleChange} disabled />
+            <Input
+              id="id"
+              name="id"
+              value={formData.id}
+              onChange={handleChange}
+              disabled
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="date">Invoice Date</Label>
-            <Input id="date" name="date" type="date" value={formData.date} onChange={handleChange} required />
+            <Input
+              id="date"
+              name="date"
+              type="date"
+              value={formData.date}
+              onChange={handleChange}
+              required
+            />
           </div>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="dueDate">Due Date</Label>
-            <Input id="dueDate" name="dueDate" type="date" value={formData.dueDate} onChange={handleChange} required />
+            <Input
+              id="dueDate"
+              name="dueDate"
+              type="date"
+              value={formData.dueDate}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="status">Status</Label>
-            <Select value={formData.status} onValueChange={(value) => handleSelectChange("status", value)}>
+            <Select
+              value={formData.status}
+              onValueChange={(value) => handleSelectChange("status", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
@@ -138,23 +178,47 @@ export default function EditInvoicePage({ params }: { params: { id: string } }) 
 
         <div className="space-y-2">
           <Label htmlFor="patientName">Patient Name</Label>
-          <Input id="patientName" name="patientName" value={formData.patientName} onChange={handleChange} required />
+          <Input
+            id="patientName"
+            name="patientName"
+            value={formData.patientName}
+            onChange={handleChange}
+            required
+          />
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="patientId">Patient ID</Label>
-            <Input id="patientId" name="patientId" value={formData.patientId} onChange={handleChange} required />
+            <Input
+              id="patientId"
+              name="patientId"
+              value={formData.patientId}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="patientType">Patient Type</Label>
-            <Input id="patientType" name="patientType" value={formData.patientType} onChange={handleChange} required />
+            <Input
+              id="patientType"
+              name="patientType"
+              value={formData.patientType}
+              onChange={handleChange}
+              required
+            />
           </div>
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="ownerName">Owner Name</Label>
-          <Input id="ownerName" name="ownerName" value={formData.ownerName} onChange={handleChange} required />
+          <Input
+            id="ownerName"
+            name="ownerName"
+            value={formData.ownerName}
+            onChange={handleChange}
+            required
+          />
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
@@ -171,7 +235,13 @@ export default function EditInvoicePage({ params }: { params: { id: string } }) 
           </div>
           <div className="space-y-2">
             <Label htmlFor="ownerPhone">Owner Phone</Label>
-            <Input id="ownerPhone" name="ownerPhone" value={formData.ownerPhone} onChange={handleChange} required />
+            <Input
+              id="ownerPhone"
+              name="ownerPhone"
+              value={formData.ownerPhone}
+              onChange={handleChange}
+              required
+            />
           </div>
         </div>
 
@@ -184,7 +254,9 @@ export default function EditInvoicePage({ params }: { params: { id: string } }) 
                 <Input
                   id={`item-description-${index}`}
                   value={item.description}
-                  onChange={(e) => handleItemChange(index, "description", e.target.value)}
+                  onChange={(e) =>
+                    handleItemChange(index, "description", e.target.value)
+                  }
                   required
                 />
               </div>
@@ -194,7 +266,9 @@ export default function EditInvoicePage({ params }: { params: { id: string } }) 
                   id={`item-quantity-${index}`}
                   type="number"
                   value={item.quantity}
-                  onChange={(e) => handleItemChange(index, "quantity", e.target.value)}
+                  onChange={(e) =>
+                    handleItemChange(index, "quantity", e.target.value)
+                  }
                   required
                 />
               </div>
@@ -205,7 +279,9 @@ export default function EditInvoicePage({ params }: { params: { id: string } }) 
                   type="number"
                   step="0.01"
                   value={item.unitPrice}
-                  onChange={(e) => handleItemChange(index, "unitPrice", e.target.value)}
+                  onChange={(e) =>
+                    handleItemChange(index, "unitPrice", e.target.value)
+                  }
                   required
                 />
               </div>
@@ -216,7 +292,11 @@ export default function EditInvoicePage({ params }: { params: { id: string } }) 
               Add Item
             </Button>
             {formData.items.length > 1 && (
-              <Button type="button" variant="outline" onClick={() => removeItem(formData.items.length - 1)}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => removeItem(formData.items.length - 1)}
+              >
                 Remove Last Item
               </Button>
             )}
@@ -238,7 +318,13 @@ export default function EditInvoicePage({ params }: { params: { id: string } }) 
 
         <div className="space-y-2">
           <Label htmlFor="notes">Notes</Label>
-          <Textarea id="notes" name="notes" value={formData.notes} onChange={handleChange} rows={3} />
+          <Textarea
+            id="notes"
+            name="notes"
+            value={formData.notes}
+            onChange={handleChange}
+            rows={3}
+          />
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
@@ -246,7 +332,9 @@ export default function EditInvoicePage({ params }: { params: { id: string } }) 
             <Label htmlFor="paymentMethod">Payment Method</Label>
             <Select
               value={formData.paymentMethod}
-              onValueChange={(value) => handleSelectChange("paymentMethod", value)}
+              onValueChange={(value) =>
+                handleSelectChange("paymentMethod", value)
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select payment method" />
@@ -279,6 +367,5 @@ export default function EditInvoicePage({ params }: { params: { id: string } }) 
         </div>
       </form>
     </FormLayout>
-  )
+  );
 }
-
