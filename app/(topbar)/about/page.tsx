@@ -41,7 +41,7 @@ export default function AboutPage() {
             </div>
             <div className="flex justify-center">
               <Image
-                src="/placeholder.svg?height=400&width=500"
+                src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0"
                 alt="Veterinarian with patient"
                 width={500}
                 height={400}
