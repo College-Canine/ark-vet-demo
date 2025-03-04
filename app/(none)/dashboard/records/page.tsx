@@ -1,14 +1,19 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { format } from "date-fns"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { MoreHorizontal, Eye, Pencil, Trash } from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { PageHeader } from "@/components/page-header"
-import { DataTable } from "@/components/data-table"
+import { useState } from "react";
+import Link from "next/link";
+import { format } from "date-fns";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { MoreHorizontal, Eye, Pencil, Trash } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { PageHeader } from "@/components/page-header";
+import { DataTable } from "@/components/data-table";
 
 // Mock data
 const records = [
@@ -102,14 +107,14 @@ const records = [
     provider: "Dr. Johnson",
     status: "Completed",
   },
-]
+];
 
 export default function MedicalRecordsPage() {
-  const [data, setData] = useState(records)
+  const [data, setData] = useState(records);
 
   const handleDelete = (id: string) => {
-    setData(data.filter((item) => item.id !== id))
-  }
+    setData(data.filter((item) => item.id !== id));
+  };
 
   const columns = [
     {
@@ -119,15 +124,19 @@ export default function MedicalRecordsPage() {
     {
       accessorKey: "date",
       header: "Date",
-      cell: ({ row }) => format(row.original.date, "MMM d, yyyy"),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cell: ({ row }: any) => format(row.original.date, "MMM d, yyyy"),
     },
     {
       accessorKey: "patientName",
       header: "Patient",
-      cell: ({ row }) => (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cell: ({ row }: any) => (
         <div>
           <div>{row.original.patientName}</div>
-          <div className="text-xs text-muted-foreground">ID: {row.original.patientId}</div>
+          <div className="text-xs text-muted-foreground">
+            ID: {row.original.patientId}
+          </div>
         </div>
       ),
     },
@@ -142,15 +151,17 @@ export default function MedicalRecordsPage() {
     {
       accessorKey: "status",
       header: "Status",
-      cell: ({ row }) => {
-        const status = row.original.status
-        return <Badge className="bg-green-100 text-green-800">{status}</Badge>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cell: ({ row }: any) => {
+        const status = row.original.status;
+        return <Badge className="bg-green-100 text-green-800">{status}</Badge>;
       },
     },
     {
       id: "actions",
-      cell: ({ row }) => {
-        const record = row.original
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cell: ({ row }: any) => {
+        const record = row.original;
         return (
           <div className="flex justify-end">
             <DropdownMenu>
@@ -180,10 +191,10 @@ export default function MedicalRecordsPage() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-        )
+        );
       },
     },
-  ]
+  ];
 
   return (
     <div className="space-y-6">
@@ -193,8 +204,12 @@ export default function MedicalRecordsPage() {
         createButtonLabel="New Record"
         createButtonLink="/dashboard/records/new"
       />
-      <DataTable columns={columns} data={data} searchColumn="patientName" searchPlaceholder="Search patients..." />
+      <DataTable
+        columns={columns}
+        data={data}
+        searchColumn="patientName"
+        searchPlaceholder="Search patients..."
+      />
     </div>
-  )
+  );
 }
-

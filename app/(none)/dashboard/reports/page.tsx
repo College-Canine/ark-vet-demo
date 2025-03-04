@@ -1,13 +1,18 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { format } from "date-fns"
-import { Button } from "@/components/ui/button"
-import { MoreHorizontal, Eye, Download } from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { PageHeader } from "@/components/page-header"
-import { DataTable } from "@/components/data-table"
+import { useState } from "react";
+import Link from "next/link";
+import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
+import { MoreHorizontal, Eye, Download } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { PageHeader } from "@/components/page-header";
+import { DataTable } from "@/components/data-table";
 
 // Mock data
 const reports = [
@@ -46,10 +51,11 @@ const reports = [
     generatedDate: new Date(2023, 4, 15),
     generatedBy: "Dr. Emily Davis",
   },
-]
+];
 
 export default function ReportsPage() {
-  const [data, setData] = useState(reports)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [data, setData] = useState(reports);
 
   const columns = [
     {
@@ -67,7 +73,8 @@ export default function ReportsPage() {
     {
       accessorKey: "generatedDate",
       header: "Generated Date",
-      cell: ({ row }) => format(row.original.generatedDate, "MMM d, yyyy"),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cell: ({ row }: any) => format(row.original.generatedDate, "MMM d, yyyy"),
     },
     {
       accessorKey: "generatedBy",
@@ -75,8 +82,9 @@ export default function ReportsPage() {
     },
     {
       id: "actions",
-      cell: ({ row }) => {
-        const report = row.original
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cell: ({ row }: any) => {
+        const report = row.original;
         return (
           <div className="flex justify-end">
             <DropdownMenu>
@@ -100,10 +108,10 @@ export default function ReportsPage() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-        )
+        );
       },
     },
-  ]
+  ];
 
   return (
     <div className="space-y-6">
@@ -113,8 +121,12 @@ export default function ReportsPage() {
         createButtonLabel="Generate New Report"
         createButtonLink="/dashboard/reports/new"
       />
-      <DataTable columns={columns} data={data} searchColumn="name" searchPlaceholder="Search reports..." />
+      <DataTable
+        columns={columns}
+        data={data}
+        searchColumn="name"
+        searchPlaceholder="Search reports..."
+      />
     </div>
-  )
+  );
 }
-

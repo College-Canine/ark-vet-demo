@@ -1,13 +1,14 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { format } from "date-fns"
-import { Badge } from "@/components/ui/badge"
-import { DetailView } from "@/components/detail-view"
-import { DetailItem } from "@/components/detail-item"
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { format } from "date-fns";
+import { Badge } from "@/components/ui/badge";
+import { DetailView } from "@/components/detail-view";
+import { DetailItem } from "@/components/detail-item";
 
 // Mock data function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getMedicalRecord = (id: string) => {
   return {
     id: "MR001",
@@ -20,7 +21,8 @@ const getMedicalRecord = (id: string) => {
     provider: "Dr. Johnson",
     status: "Completed",
     description: "Annual vaccinations - DHPP, Rabies, Bordetella",
-    notes: "Patient was well-behaved during the procedure. No adverse reactions observed.",
+    notes:
+      "Patient was well-behaved during the procedure. No adverse reactions observed.",
     medications: [
       {
         name: "DHPP Vaccine",
@@ -42,32 +44,37 @@ const getMedicalRecord = (id: string) => {
     createdBy: "Dr. Johnson",
     createdAt: new Date(2023, 5, 15, 10, 30),
     updatedAt: new Date(2023, 5, 15, 10, 45),
-  }
-}
+  };
+};
 
-export default function MedicalRecordDetailPage({ params }: { params: { id: string } }) {
-  const router = useRouter()
-  const [record, setRecord] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
+export default function MedicalRecordDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const router = useRouter();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [record, setRecord] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // In a real app, this would be an API call
-    const data = getMedicalRecord(params.id)
-    setRecord(data)
-    setLoading(false)
-  }, [params.id])
+    const data = getMedicalRecord(params.id);
+    setRecord(data);
+    setLoading(false);
+  }, [params.id]);
 
   const handleDelete = () => {
     // In a real app, this would be an API call
-    router.push("/dashboard/records")
-  }
+    router.push("/dashboard/records");
+  };
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   if (!record) {
-    return <div>Medical record not found</div>
+    return <div>Medical record not found</div>;
   }
 
   return (
@@ -83,10 +90,20 @@ export default function MedicalRecordDetailPage({ params }: { params: { id: stri
           <h3 className="text-lg font-medium">Record Information</h3>
           <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <DetailItem label="Record ID" value={record.id} />
-            <DetailItem label="Date" value={format(record.date, "MMMM d, yyyy")} />
+            <DetailItem
+              label="Date"
+              value={format(record.date, "MMMM d, yyyy")}
+            />
             <DetailItem label="Type" value={record.type} />
             <DetailItem label="Provider" value={record.provider} />
-            <DetailItem label="Status" value={<Badge className="bg-green-100 text-green-800">{record.status}</Badge>} />
+            <DetailItem
+              label="Status"
+              value={
+                <Badge className="bg-green-100 text-green-800">
+                  {record.status}
+                </Badge>
+              }
+            />
           </div>
         </div>
 
@@ -118,11 +135,15 @@ export default function MedicalRecordDetailPage({ params }: { params: { id: stri
           <h3 className="text-lg font-medium">Medications</h3>
           <div className="mt-3">
             <ul className="space-y-2">
-              {record.medications.map((medication: any, index: number) => (
-                <li key={index} className="text-sm">
-                  <span className="font-medium">{medication.name}</span> - {medication.dosage} ({medication.route})
-                </li>
-              ))}
+              {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                record.medications.map((medication: any, index: number) => (
+                  <li key={index} className="text-sm">
+                    <span className="font-medium">{medication.name}</span> -{" "}
+                    {medication.dosage} ({medication.route})
+                  </li>
+                ))
+              }
             </ul>
           </div>
         </div>
@@ -138,12 +159,17 @@ export default function MedicalRecordDetailPage({ params }: { params: { id: stri
           <h3 className="text-lg font-medium">Additional Information</h3>
           <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <DetailItem label="Created By" value={record.createdBy} />
-            <DetailItem label="Created At" value={format(record.createdAt, "MMMM d, yyyy 'at' h:mm a")} />
-            <DetailItem label="Last Updated" value={format(record.updatedAt, "MMMM d, yyyy 'at' h:mm a")} />
+            <DetailItem
+              label="Created At"
+              value={format(record.createdAt, "MMMM d, yyyy 'at' h:mm a")}
+            />
+            <DetailItem
+              label="Last Updated"
+              value={format(record.updatedAt, "MMMM d, yyyy 'at' h:mm a")}
+            />
           </div>
         </div>
       </div>
     </DetailView>
-  )
+  );
 }
-
