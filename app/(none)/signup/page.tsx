@@ -9,7 +9,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Stethoscope } from "lucide-react";
+import Image from "next/image";
 
 export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +30,13 @@ export default function SignupPage() {
       <div className="container mx-auto flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4 py-12">
         <div className="mx-auto w-full max-w-md">
           <div className="mb-8 flex flex-col items-center text-center">
-            <Stethoscope className="h-12 w-12 text-primary" />
+            <Image
+              className="w-24"
+              src="/favicon.svg"
+              width={512}
+              height={512}
+              alt="Logo"
+            />
             <h1 className="mt-4 text-3xl font-bold">Create an account</h1>
             <p className="mt-2 text-muted-foreground">
               Start your 14-day free trial, no credit card required
@@ -91,7 +97,7 @@ export default function SignupPage() {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="flex flex-col">
+              <CardFooter className="flex flex-col mt-4">
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? "Creating account..." : "Create account"}
                 </Button>
