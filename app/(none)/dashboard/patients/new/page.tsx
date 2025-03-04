@@ -1,18 +1,24 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { FormLayout } from "@/components/form-layout"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { FormLayout } from "@/components/form-layout";
 
 export default function NewPatientPage() {
-  const router = useRouter()
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     type: "",
@@ -27,39 +33,49 @@ export default function NewPatientPage() {
     ownerPhone: "",
     ownerEmail: "",
     ownerAddress: "",
-  })
+  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSelectChange = (name: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // In  value }))
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // In a real app, this would be an API call
-    router.push("/dashboard/patients")
-  }
+    router.push("/dashboard/patients");
+  };
 
   return (
-    <FormLayout title="New Patient" description="Register a new patient" backHref="/dashboard/patients">
+    <FormLayout
+      title="New Patient"
+      description="Register a new patient"
+      backHref="/dashboard/patients"
+    >
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="name">Name</Label>
-            <Input id="name" name="name" value={formData.name} onChange={handleChange} required />
+            <Input
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="type">Type</Label>
-            <Select value={formData.type} onValueChange={(value) => handleSelectChange("type", value)}>
+            <Select
+              value={formData.type}
+              onValueChange={(value) => handleSelectChange("type", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select type" />
               </SelectTrigger>
@@ -77,11 +93,22 @@ export default function NewPatientPage() {
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="breed">Breed</Label>
-            <Input id="breed" name="breed" value={formData.breed} onChange={handleChange} required />
+            <Input
+              id="breed"
+              name="breed"
+              value={formData.breed}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="color">Color</Label>
-            <Input id="color" name="color" value={formData.color} onChange={handleChange} />
+            <Input
+              id="color"
+              name="color"
+              value={formData.color}
+              onChange={handleChange}
+            />
           </div>
         </div>
 
@@ -99,7 +126,10 @@ export default function NewPatientPage() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="gender">Gender</Label>
-            <Select value={formData.gender} onValueChange={(value) => handleSelectChange("gender", value)}>
+            <Select
+              value={formData.gender}
+              onValueChange={(value) => handleSelectChange("gender", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select gender" />
               </SelectTrigger>
@@ -135,7 +165,10 @@ export default function NewPatientPage() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="status">Status</Label>
-            <Select value={formData.status} onValueChange={(value) => handleSelectChange("status", value)}>
+            <Select
+              value={formData.status}
+              onValueChange={(value) => handleSelectChange("status", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
@@ -152,11 +185,23 @@ export default function NewPatientPage() {
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="ownerName">Owner Name</Label>
-              <Input id="ownerName" name="ownerName" value={formData.ownerName} onChange={handleChange} required />
+              <Input
+                id="ownerName"
+                name="ownerName"
+                value={formData.ownerName}
+                onChange={handleChange}
+                required
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="ownerPhone">Owner Phone</Label>
-              <Input id="ownerPhone" name="ownerPhone" value={formData.ownerPhone} onChange={handleChange} required />
+              <Input
+                id="ownerPhone"
+                name="ownerPhone"
+                value={formData.ownerPhone}
+                onChange={handleChange}
+                required
+              />
             </div>
           </div>
           <div className="mt-4 space-y-2">
@@ -191,6 +236,5 @@ export default function NewPatientPage() {
         </div>
       </form>
     </FormLayout>
-  )
+  );
 }
-
