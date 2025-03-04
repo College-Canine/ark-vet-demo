@@ -1,13 +1,18 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { MoreHorizontal, Eye, Pencil, Trash } from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { PageHeader } from "@/components/page-header"
-import { DataTable } from "@/components/data-table"
+import { useState } from "react";
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { MoreHorizontal, Eye, Pencil, Trash } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { PageHeader } from "@/components/page-header";
+import { DataTable } from "@/components/data-table";
 
 // Mock data
 const patients = [
@@ -111,14 +116,14 @@ const patients = [
     ownerName: "Lisa Robinson",
     status: "Inactive",
   },
-]
+];
 
 export default function PatientsPage() {
-  const [data, setData] = useState(patients)
+  const [data, setData] = useState(patients);
 
   const handleDelete = (id: string) => {
-    setData(data.filter((item) => item.id !== id))
-  }
+    setData(data.filter((item) => item.id !== id));
+  };
 
   const columns = [
     {
@@ -140,7 +145,8 @@ export default function PatientsPage() {
     {
       accessorKey: "age",
       header: "Age",
-      cell: ({ row }) => `${row.original.age} years`,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cell: ({ row }: any) => `${row.original.age} years`,
     },
     {
       accessorKey: "gender",
@@ -153,19 +159,27 @@ export default function PatientsPage() {
     {
       accessorKey: "status",
       header: "Status",
-      cell: ({ row }) => {
-        const status = row.original.status
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cell: ({ row }: any) => {
+        const status = row.original.status;
         return (
-          <Badge className={status === "Active" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}>
+          <Badge
+            className={
+              status === "Active"
+                ? "bg-green-100 text-green-800"
+                : "bg-red-100 text-red-800"
+            }
+          >
             {status}
           </Badge>
-        )
+        );
       },
     },
     {
       id: "actions",
-      cell: ({ row }) => {
-        const patient = row.original
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cell: ({ row }: any) => {
+        const patient = row.original;
         return (
           <div className="flex justify-end">
             <DropdownMenu>
@@ -195,10 +209,10 @@ export default function PatientsPage() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-        )
+        );
       },
     },
-  ]
+  ];
 
   return (
     <div className="space-y-6">
@@ -208,8 +222,12 @@ export default function PatientsPage() {
         createButtonLabel="New Patient"
         createButtonLink="/dashboard/patients/new"
       />
-      <DataTable columns={columns} data={data} searchColumn="name" searchPlaceholder="Search patients..." />
+      <DataTable
+        columns={columns}
+        data={data}
+        searchColumn="name"
+        searchPlaceholder="Search patients..."
+      />
     </div>
-  )
+  );
 }
-

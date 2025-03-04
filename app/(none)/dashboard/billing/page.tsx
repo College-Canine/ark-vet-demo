@@ -1,14 +1,19 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { format } from "date-fns"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { MoreHorizontal, Eye, Pencil, Trash } from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { PageHeader } from "@/components/page-header"
-import { DataTable } from "@/components/data-table"
+import { useState } from "react";
+import Link from "next/link";
+import { format } from "date-fns";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { MoreHorizontal, Eye, Pencil, Trash } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { PageHeader } from "@/components/page-header";
+import { DataTable } from "@/components/data-table";
 
 // Mock data
 const invoices = [
@@ -57,14 +62,14 @@ const invoices = [
     amount: 225.0,
     status: "Pending",
   },
-]
+];
 
 export default function BillingPage() {
-  const [data, setData] = useState(invoices)
+  const [data, setData] = useState(invoices);
 
   const handleDelete = (id: string) => {
-    setData(data.filter((item) => item.id !== id))
-  }
+    setData(data.filter((item) => item.id !== id));
+  };
 
   const columns = [
     {
@@ -74,15 +79,19 @@ export default function BillingPage() {
     {
       accessorKey: "date",
       header: "Date",
-      cell: ({ row }) => format(row.original.date, "MMM d, yyyy"),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cell: ({ row }: any) => format(row.original.date, "MMM d, yyyy"),
     },
     {
       accessorKey: "patientName",
       header: "Patient",
-      cell: ({ row }) => (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cell: ({ row }: any) => (
         <div>
           <div>{row.original.patientName}</div>
-          <div className="text-xs text-muted-foreground">ID: {row.original.patientId}</div>
+          <div className="text-xs text-muted-foreground">
+            ID: {row.original.patientId}
+          </div>
         </div>
       ),
     },
@@ -93,34 +102,37 @@ export default function BillingPage() {
     {
       accessorKey: "amount",
       header: "Amount",
-      cell: ({ row }) => `$${row.original.amount.toFixed(2)}`,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cell: ({ row }: any) => `$${row.original.amount.toFixed(2)}`,
     },
     {
       accessorKey: "status",
       header: "Status",
-      cell: ({ row }) => {
-        const status = row.original.status
-        let color
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cell: ({ row }: any) => {
+        const status = row.original.status;
+        let color;
         switch (status) {
           case "Paid":
-            color = "bg-green-100 text-green-800"
-            break
+            color = "bg-green-100 text-green-800";
+            break;
           case "Pending":
-            color = "bg-yellow-100 text-yellow-800"
-            break
+            color = "bg-yellow-100 text-yellow-800";
+            break;
           case "Overdue":
-            color = "bg-red-100 text-red-800"
-            break
+            color = "bg-red-100 text-red-800";
+            break;
           default:
-            color = "bg-gray-100 text-gray-800"
+            color = "bg-gray-100 text-gray-800";
         }
-        return <Badge className={color}>{status}</Badge>
+        return <Badge className={color}>{status}</Badge>;
       },
     },
     {
       id: "actions",
-      cell: ({ row }) => {
-        const invoice = row.original
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cell: ({ row }: any) => {
+        const invoice = row.original;
         return (
           <div className="flex justify-end">
             <DropdownMenu>
@@ -150,10 +162,10 @@ export default function BillingPage() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-        )
+        );
       },
     },
-  ]
+  ];
 
   return (
     <div className="space-y-6">
@@ -163,8 +175,12 @@ export default function BillingPage() {
         createButtonLabel="New Invoice"
         createButtonLink="/dashboard/billing/new"
       />
-      <DataTable columns={columns} data={data} searchColumn="patientName" searchPlaceholder="Search patients..." />
+      <DataTable
+        columns={columns}
+        data={data}
+        searchColumn="patientName"
+        searchPlaceholder="Search patients..."
+      />
     </div>
-  )
+  );
 }
-
