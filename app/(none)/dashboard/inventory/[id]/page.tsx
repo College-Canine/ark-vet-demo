@@ -28,11 +28,8 @@ const getInventoryItem = (id: string) => {
   };
 };
 
-export default function InventoryItemDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function InventoryItemDetailPage() {
+  const params = { id: "testing" };
   const router = useRouter();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [item, setItem] = useState<any>(null);

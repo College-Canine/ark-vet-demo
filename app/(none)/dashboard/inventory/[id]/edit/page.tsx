@@ -38,11 +38,8 @@ const getInventoryItem = (id: string) => {
   };
 };
 
-export default function EditInventoryItemPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function EditInventoryItemPage() {
+  const params = { id: "testing" };
   const router = useRouter();
   const [formData, setFormData] = useState({
     id: "",

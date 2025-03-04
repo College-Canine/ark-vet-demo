@@ -70,11 +70,8 @@ const getPatient = (id: string) => {
   };
 };
 
-export default function PatientDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function PatientDetailPage() {
+  const params = { id: "testing" };
   const router = useRouter();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [patient, setPatient] = useState<any>(null);

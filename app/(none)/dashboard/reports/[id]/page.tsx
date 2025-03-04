@@ -39,11 +39,8 @@ const getReport = (id: string) => {
   };
 };
 
-export default function ReportDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function ReportDetailPage() {
+  const params = { id: "testing" };
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const router = useRouter();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

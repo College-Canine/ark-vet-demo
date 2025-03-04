@@ -39,11 +39,8 @@ const getMedicalRecord = (id: string) => {
   };
 };
 
-export default function EditMedicalRecordPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function EditMedicalRecordPage() {
+  const params = { id: "testing" };
   const router = useRouter();
   const [formData, setFormData] = useState({
     id: "",

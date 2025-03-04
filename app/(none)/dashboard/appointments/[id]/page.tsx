@@ -30,11 +30,8 @@ const getAppointment = (id: string) => {
   return appointments.find((a) => a.id === id);
 };
 
-export default function AppointmentDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function AppointmentDetailPage() {
+  const params = { id: "testing" };
   const router = useRouter();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [appointment, setAppointment] = useState<any>(null);

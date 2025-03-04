@@ -38,11 +38,8 @@ const getPatient = (id: string) => {
   };
 };
 
-export default function EditPatientPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function EditPatientPage() {
+  const params = { id: "testing" };
   const router = useRouter();
   const [formData, setFormData] = useState({
     id: "",

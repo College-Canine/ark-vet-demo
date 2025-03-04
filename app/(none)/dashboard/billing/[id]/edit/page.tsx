@@ -42,11 +42,8 @@ const getInvoice = (id: string) => {
   };
 };
 
-export default function EditInvoicePage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function EditInvoicePage() {
+  const params = { id: "testing" };
   const router = useRouter();
   const [formData, setFormData] = useState({
     id: "",

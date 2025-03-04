@@ -47,11 +47,8 @@ const getMedicalRecord = (id: string) => {
   };
 };
 
-export default function MedicalRecordDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function MedicalRecordDetailPage() {
+  const params = { id: "testing" };
   const router = useRouter();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [record, setRecord] = useState<any>(null);
