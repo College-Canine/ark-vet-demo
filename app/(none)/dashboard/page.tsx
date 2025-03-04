@@ -179,7 +179,8 @@ export default function DashboardPage() {
               <div>
                 <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
                 <p className="text-muted-foreground">
-                  Welcome back, Dr. Smith. Here's what's happening today.
+                  Welcome back, Dr. Smith. Here&apos;s what&apos;s happening
+                  today.
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -208,7 +209,7 @@ export default function DashboardPage() {
                   <Card>
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
                       <CardTitle className="text-sm font-medium">
-                        Today's Appointments
+                        Today&apos;s Appointments
                       </CardTitle>
                       <Calendar className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
@@ -236,7 +237,7 @@ export default function DashboardPage() {
                   <Card>
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
                       <CardTitle className="text-sm font-medium">
-                        Today's Revenue
+                        Today&apos;s Revenue
                       </CardTitle>
                       <DollarSign className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
@@ -323,7 +324,7 @@ export default function DashboardPage() {
                         <div>
                           <p className="font-medium">Medical record updated</p>
                           <p className="text-sm text-muted-foreground">
-                            Dr. Johnson updated Bella's medical record
+                            Dr. Johnson updated Bella&apos;s medical record
                           </p>
                           <p className="text-xs text-muted-foreground">
                             30 minutes ago
@@ -337,7 +338,8 @@ export default function DashboardPage() {
                         <div>
                           <p className="font-medium">Appointment rescheduled</p>
                           <p className="text-sm text-muted-foreground">
-                            Charlie's appointment moved to tomorrow at 2:00 PM
+                            Charlie&apos;s appointment moved to tomorrow at 2:00
+                            PM
                           </p>
                           <p className="text-xs text-muted-foreground">
                             1 hour ago

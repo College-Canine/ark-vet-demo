@@ -21,8 +21,8 @@ export default function PricingPage() {
               Simple, transparent pricing
             </h1>
             <p className="mt-6 text-lg text-muted-foreground">
-              Choose the plan that's right for your practice. All plans include
-              a 14-day free trial.
+              Choose the plan that&apos;s right for your practice. All plans
+              include a 14-day free trial.
             </p>
           </div>
         </div>
