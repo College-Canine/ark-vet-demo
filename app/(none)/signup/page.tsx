@@ -10,19 +10,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import Image from "next/image";
+import { Signup } from "@/lib/actions/authentication";
 
 export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [isTermsChecked, setIsTermsChecked] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      window.location.href = "/dashboard";
-    }, 1500);
+    const response = await Signup(new FormData(e.currentTarget));
+
+    console.log(response);
+
+    // TODO: Implement error handling
+
+    setIsLoading(false);
   };
 
   return (
@@ -48,18 +52,29 @@ export default function SignupPage() {
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="firstName">First name</Label>
-                      <Input id="firstName" placeholder="John" required />
+                      <Label htmlFor="firstname">First name</Label>
+                      <Input
+                        name="firstname"
+                        id="firstname"
+                        placeholder="John"
+                        required
+                      />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="lastName">Last name</Label>
-                      <Input id="lastName" placeholder="Doe" required />
+                      <Label htmlFor="lastname">Last name</Label>
+                      <Input
+                        name="lastname"
+                        id="lastname"
+                        placeholder="Doe"
+                        required
+                      />
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="practiceName">Practice name</Label>
+                    <Label htmlFor="practice_name">Practice name</Label>
                     <Input
-                      id="practiceName"
+                      id="practice_name"
+                      name="practice_name"
                       placeholder="Acme Veterinary Clinic"
                       required
                     />
@@ -68,6 +83,7 @@ export default function SignupPage() {
                     <Label htmlFor="email">Email</Label>
                     <Input
                       id="email"
+                      name="email"
                       type="email"
                       placeholder="name@example.com"
                       required
@@ -77,13 +93,21 @@ export default function SignupPage() {
                     <Label htmlFor="password">Password</Label>
                     <Input
                       id="password"
+                      name="password"
                       type="password"
                       placeholder="••••••••"
                       required
                     />
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Checkbox id="terms" required />
+                    <Checkbox
+                      id="terms"
+                      onCheckedChange={(checked) =>
+                        setIsTermsChecked(checked.valueOf() as boolean)
+                      }
+                      checked={isTermsChecked}
+                      required
+                    />
                     <Label htmlFor="terms" className="text-sm">
                       I agree to the{" "}
                       <Link href="#" className="text-primary hover:underline">
@@ -98,7 +122,11 @@ export default function SignupPage() {
                 </div>
               </CardContent>
               <CardFooter className="flex flex-col mt-4">
-                <Button type="submit" className="w-full" disabled={isLoading}>
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={isLoading || !isTermsChecked}
+                >
                   {isLoading ? "Creating account..." : "Create account"}
                 </Button>
                 <p className="mt-4 text-center text-sm text-muted-foreground">

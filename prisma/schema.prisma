@@ -1,0 +1,272 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+enum Role {
+  ADMIN
+  VET
+  ASSISTANT
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  UNKNOWN
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELED
+}
+
+enum InvoiceStatus {
+  PENDING
+  PAID
+  OVERDUE
+}
+
+enum PaymentStatus {
+  SUCCEEDED
+  REFUNDED
+  FAILED
+}
+
+model Clinic {
+  id             Int             @id @default(autoincrement())
+  name           String
+  address        String?
+  phone          String?
+  email          String?
+  licenseInfo    String?
+  users          User[]
+  patients       Patient[]
+  appointments   Appointment[]
+  medicalRecords MedicalRecord[]
+  invoices       Invoice[]
+  inventory      InventoryItem[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  Owner          Owner[]
+  Integration    Integration[]
+}
+
+model User {
+  id             String @id @default(cuid())
+  firstname      String
+  lastname       String
+  email          String @unique
+  hashedPassword String
+
+  profilePicture String?
+  bio            String?
+
+  role      Role
+  phone     String?
+  clinicId  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  clinic       Clinic        @relation(fields: [clinicId], references: [id])
+  appointments Appointment[]
+  sessions     Session[]
+}
+
+model Session {
+  id String @id @default(cuid())
+
+  // Data
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  // Relationships
+  user User @relation(references: [id], fields: [userId], onDelete: Cascade)
+
+  // Foreign Keys
+  userId String
+}
+
+model Owner {
+  id          Int           @id @default(autoincrement())
+  firstName   String
+  lastName    String
+  email       String?
+  phone       String?
+  address     String?
+  clinicId    Int
+  clinic      Clinic        @relation(fields: [clinicId], references: [id])
+  patients    Patient[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  Appointment Appointment[]
+  Invoice     Invoice[]
+}
+
+model PetBreed {
+  slug        String     @id
+  thumbnail   String     @default("")
+  name        String     @default("")
+  description String     @default("")
+  parentSlug  String?
+  parent      PetBreed?  @relation(name: "parent_child", fields: [parentSlug], references: [slug])
+  children    PetBreed[] @relation(name: "parent_child")
+  Patient     Patient[]
+}
+
+model Patient {
+  id            Int             @id @default(autoincrement())
+  name          String
+  breedSlug     String
+  species       String
+  gender        Gender
+  dateOfBirth   DateTime?
+  microchipId   String?
+  notes         String?
+  ownerId       Int
+  owner         Owner           @relation(fields: [ownerId], references: [id])
+  breed         PetBreed        @relation(fields: [breedSlug], references: [slug])
+  clinicId      Int
+  clinic        Clinic          @relation(fields: [clinicId], references: [id])
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  Appointment   Appointment[]
+  MedicalRecord MedicalRecord[]
+  Invoice       Invoice[]
+}
+
+model Appointment {
+  id             Int               @id @default(autoincrement())
+  patientId      Int
+  ownerId        Int
+  assignedUserId String
+  clinicId       Int
+  startTime      DateTime
+  endTime        DateTime
+  reason         String?
+  status         AppointmentStatus
+  notes          String?
+  patient        Patient           @relation(fields: [patientId], references: [id])
+  owner          Owner             @relation(fields: [ownerId], references: [id])
+  assignedUser   User              @relation(fields: [assignedUserId], references: [id])
+  clinic         Clinic            @relation(fields: [clinicId], references: [id])
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  MedicalRecord  MedicalRecord[]
+  Invoice        Invoice[]
+}
+
+model MedicalRecord {
+  id            Int          @id @default(autoincrement())
+  patientId     Int
+  appointmentId Int?
+  clinicId      Int
+  diagnosis     String?
+  treatment     String?
+  medications   String?
+  allergies     String?
+  labResults    String?
+  notes         String?
+  patient       Patient      @relation(fields: [patientId], references: [id])
+  appointment   Appointment? @relation(fields: [appointmentId], references: [id])
+  clinic        Clinic       @relation(fields: [clinicId], references: [id])
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model Invoice {
+  id              Int           @id @default(autoincrement())
+  patientId       Int
+  ownerId         Int
+  appointmentId   Int?
+  stripeInvoiceId String        @unique
+  amount          Decimal
+  currency        String
+  status          InvoiceStatus
+  dueDate         DateTime?
+  clinicId        Int
+  patient         Patient       @relation(fields: [patientId], references: [id])
+  owner           Owner         @relation(fields: [ownerId], references: [id])
+  appointment     Appointment?  @relation(fields: [appointmentId], references: [id])
+  clinic          Clinic        @relation(fields: [clinicId], references: [id])
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model InventoryItem {
+  id                Int                 @id @default(autoincrement())
+  itemName          String
+  description       String?
+  category          String
+  quantity          Int
+  quantityTimestamp DateTime            @default(now())
+  reorderLevel      Int?
+  expirationDate    DateTime?
+  clinicId          Int
+  clinic            Clinic              @relation(fields: [clinicId], references: [id])
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  InventoryPurchase InventoryPurchase[]
+  InventorySale     InventorySale[]
+  InventoryUsage    InventoryUsage[]
+  InventoryReturn   InventoryReturn[]
+}
+
+model InventoryPurchase {
+  id              Int           @id @default(autoincrement())
+  inventoryItemId Int
+  quantity        Int
+  costPerUnit     Decimal
+  supplier        String
+  purchaseDate    DateTime
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id])
+  createdAt       DateTime      @default(now())
+}
+
+model InventorySale {
+  id              Int           @id @default(autoincrement())
+  inventoryItemId Int
+  quantity        Int
+  salePrice       Decimal
+  soldTo          String
+  saleDate        DateTime
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id])
+  createdAt       DateTime      @default(now())
+}
+
+model InventoryUsage {
+  id              Int           @id @default(autoincrement())
+  inventoryItemId Int
+  quantity        Int
+  usedFor         String
+  usageDate       DateTime
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id])
+  createdAt       DateTime      @default(now())
+}
+
+model InventoryReturn {
+  id              Int           @id @default(autoincrement())
+  inventoryItemId Int
+  quantity        Int
+  returnedBy      String
+  returnDate      DateTime
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id])
+  createdAt       DateTime      @default(now())
+}
+
+model Integration {
+  id            Int      @id @default(autoincrement())
+  clinicId      Int
+  name          String
+  type          String
+  apiKey        String
+  webhookUrl    String?
+  configuration Json?
+  clinic        Clinic   @relation(fields: [clinicId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
