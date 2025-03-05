@@ -9,6 +9,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
+import { Login } from "@/lib/actions/authentication";
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -17,11 +18,13 @@ export default function LoginPage() {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      window.location.href = "/dashboard";
-    }, 1500);
+    const response = await Login(new FormData(e.currentTarget));
+
+    console.log(response);
+
+    // TODO: Implement error handling
+
+    setIsLoading(false);
   };
 
   return (
@@ -49,6 +52,7 @@ export default function LoginPage() {
                     <Label htmlFor="email">Email</Label>
                     <Input
                       id="email"
+                      name="email"
                       type="email"
                       placeholder="name@example.com"
                       required
@@ -67,6 +71,7 @@ export default function LoginPage() {
                     <Input
                       id="password"
                       type="password"
+                      name="password"
                       placeholder="••••••••"
                       required
                     />

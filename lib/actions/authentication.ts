@@ -57,7 +57,7 @@ export async function Login(formData: FormData) {
 
   (await cookies()).set(cookie.name, cookie.value, cookie.attributes);
 
-  redirect("/");
+  redirect("/dashboard");
 
   return { success: true };
 }
