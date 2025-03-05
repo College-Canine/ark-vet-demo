@@ -158,7 +158,7 @@ export default function DashboardPage({
             <div className="border-t p-4">
               <nav className="grid gap-1">
                 <Link
-                  href="#"
+                  href="/dashboard/settings"
                   className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-gray-100"
                 >
                   <Settings className="h-5 w-5" />
