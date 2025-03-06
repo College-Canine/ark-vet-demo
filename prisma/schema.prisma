@@ -92,7 +92,7 @@ model Session {
 }
 
 model Owner {
-  id          Int           @id @default(autoincrement())
+  id          String        @id @default(cuid())
   firstName   String
   lastName    String
   email       String?
@@ -119,15 +119,14 @@ model PetBreed {
 }
 
 model Patient {
-  id            Int             @id @default(autoincrement())
+  id            String          @id @default(cuid())
   name          String
   breedSlug     String
-  species       String
   gender        Gender
   dateOfBirth   DateTime?
   microchipId   String?
   notes         String?
-  ownerId       Int
+  ownerId       String
   owner         Owner           @relation(fields: [ownerId], references: [id])
   breed         PetBreed        @relation(fields: [breedSlug], references: [slug])
   clinicId      Int
@@ -141,8 +140,8 @@ model Patient {
 
 model Appointment {
   id             Int               @id @default(autoincrement())
-  patientId      Int
-  ownerId        Int
+  patientId      String
+  ownerId        String
   assignedUserId String
   clinicId       Int
   startTime      DateTime
@@ -162,7 +161,7 @@ model Appointment {
 
 model MedicalRecord {
   id            Int          @id @default(autoincrement())
-  patientId     Int
+  patientId     String
   appointmentId Int?
   clinicId      Int
   diagnosis     String?
@@ -180,8 +179,8 @@ model MedicalRecord {
 
 model Invoice {
   id              Int           @id @default(autoincrement())
-  patientId       Int
-  ownerId         Int
+  patientId       String
+  ownerId         String
   appointmentId   Int?
   stripeInvoiceId String        @unique
   amount          Decimal

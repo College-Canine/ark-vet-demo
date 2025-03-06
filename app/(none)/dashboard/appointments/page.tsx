@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
@@ -14,105 +14,26 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { PageHeader } from "@/components/page-header";
 import { DataTable } from "@/components/data-table";
-
-// Mock data
-const appointments = [
-  {
-    id: "1",
-    date: new Date(2023, 5, 15, 9, 0),
-    patientName: "Max",
-    patientType: "Golden Retriever",
-    ownerName: "John Smith",
-    reason: "Annual checkup",
-    status: "Confirmed",
-  },
-  {
-    id: "2",
-    date: new Date(2023, 5, 15, 10, 0),
-    patientName: "Bella",
-    patientType: "Siamese Cat",
-    ownerName: "Sarah Johnson",
-    reason: "Vaccination",
-    status: "Confirmed",
-  },
-  {
-    id: "3",
-    date: new Date(2023, 5, 15, 11, 0),
-    patientName: "Charlie",
-    patientType: "Labrador",
-    ownerName: "Michael Brown",
-    reason: "Skin issue",
-    status: "Confirmed",
-  },
-  {
-    id: "4",
-    date: new Date(2023, 5, 15, 13, 0),
-    patientName: "Luna",
-    patientType: "Maine Coon",
-    ownerName: "Emily Davis",
-    reason: "Dental cleaning",
-    status: "Pending",
-  },
-  {
-    id: "5",
-    date: new Date(2023, 5, 15, 14, 0),
-    patientName: "Cooper",
-    patientType: "Beagle",
-    ownerName: "David Wilson",
-    reason: "Limping",
-    status: "Confirmed",
-  },
-  {
-    id: "6",
-    date: new Date(2023, 5, 15, 15, 0),
-    patientName: "Lucy",
-    patientType: "Dachshund",
-    ownerName: "Jennifer Taylor",
-    reason: "Ear infection",
-    status: "Cancelled",
-  },
-  {
-    id: "7",
-    date: new Date(2023, 5, 15, 16, 0),
-    patientName: "Oliver",
-    patientType: "Persian Cat",
-    ownerName: "Robert Anderson",
-    reason: "Weight check",
-    status: "Confirmed",
-  },
-  {
-    id: "8",
-    date: new Date(2023, 5, 16, 9, 0),
-    patientName: "Daisy",
-    patientType: "Shih Tzu",
-    ownerName: "Jessica Martinez",
-    reason: "Vaccination",
-    status: "Confirmed",
-  },
-  {
-    id: "9",
-    date: new Date(2023, 5, 16, 10, 0),
-    patientName: "Rocky",
-    patientType: "German Shepherd",
-    ownerName: "Thomas Garcia",
-    reason: "Hip evaluation",
-    status: "Pending",
-  },
-  {
-    id: "10",
-    date: new Date(2023, 5, 16, 11, 0),
-    patientName: "Milo",
-    patientType: "Bengal Cat",
-    ownerName: "Lisa Robinson",
-    reason: "Vomiting",
-    status: "Confirmed",
-  },
-];
+import { Prisma } from "@prisma/client";
+import { CellContext } from "@tanstack/react-table";
 
 export default function AppointmentsPage() {
-  const [data, setData] = useState(appointments);
+  const [data, setData] = useState<
+    Prisma.AppointmentGetPayload<{
+      include: { patient: true; owner: true };
+    }>[]
+  >([]);
 
-  const handleDelete = (id: string) => {
+  useEffect(() => {
+    (async () => {
+      const appointmentReq = await fetch("/api/appointments");
+      const appointments = await appointmentReq.json();
+
+      setData(appointments);
+    })();
+  }, []);
+
+  const handleDelete = (id: number) => {
     setData(data.filter((item) => item.id !== id));
   };
 
@@ -121,24 +42,56 @@ export default function AppointmentsPage() {
       accessorKey: "date",
       header: "Date & Time",
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      cell: ({ row }: any) => format(row.original.date, "MMM d, yyyy h:mm a"),
+      cell: ({
+        row,
+      }: CellContext<
+        Prisma.AppointmentGetPayload<{
+          include: { patient: true; owner: true };
+        }>,
+        number
+      >) => format(row.original.startTime, "MMM d, yyyy h:mm a"),
     },
     {
       accessorKey: "patientName",
       header: "Patient",
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      cell: ({ row }: any) => (
+      // @ts-nocheck This is stupid typing.
+      cell: ({
+        row,
+      }: CellContext<
+        Prisma.AppointmentGetPayload<{
+          include: { patient: true; owner: true };
+        }>,
+        number
+      >) => (
         <div>
-          <div>{row.original.patientName}</div>
+          <div>{row.original.patient.name}</div>
           <div className="text-xs text-muted-foreground">
-            {row.original.patientType}
+            {row.original.patient.breedSlug}
           </div>
         </div>
       ),
     },
     {
-      accessorKey: "ownerName",
+      accessorKey: "owner",
       header: "Owner",
+      // @ts-nocheck This is stupid typing.
+      cell: ({
+        row,
+      }: CellContext<
+        Prisma.AppointmentGetPayload<{
+          include: { patient: true; owner: true };
+        }>,
+        number
+      >) => (
+        <div>
+          <div>
+            {row.original.owner.firstName} {row.original.owner.lastName}
+          </div>
+          <div className="text-xs text-muted-foreground">
+            {row.original.owner.phone || row.original.owner.email}
+          </div>
+        </div>
+      ),
     },
     {
       accessorKey: "reason",

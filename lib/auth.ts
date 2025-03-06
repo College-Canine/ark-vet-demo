@@ -21,6 +21,7 @@ export const lucia = new Lucia(adapter, {
       email: attributes.email,
       profilePicture: attributes.profilePicture,
       username: attributes.username,
+      clinicId: attributes.clinicId,
     };
   },
 });
@@ -74,5 +75,6 @@ interface DatabaseUserAttributes {
   lastname: string;
   username: string;
   email: string;
+  clinicId: number;
   profilePicture?: string;
 }
