@@ -13,6 +13,13 @@ enum Role {
   ASSISTANT
 }
 
+enum PatientStatus {
+  ACTIVE
+  DECEASED
+  MOVED
+  UNKNOWN
+}
+
 enum Gender {
   MALE
   FEMALE
@@ -119,23 +126,24 @@ model PetBreed {
 }
 
 model Patient {
-  id            String          @id @default(cuid())
-  name          String
-  breedSlug     String
-  gender        Gender
-  dateOfBirth   DateTime?
-  microchipId   String?
-  notes         String?
-  ownerId       String
-  owner         Owner           @relation(fields: [ownerId], references: [id])
-  breed         PetBreed        @relation(fields: [breedSlug], references: [slug])
-  clinicId      Int
-  clinic        Clinic          @relation(fields: [clinicId], references: [id])
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  Appointment   Appointment[]
-  MedicalRecord MedicalRecord[]
-  Invoice       Invoice[]
+  id           String          @id @default(cuid())
+  name         String
+  breedSlug    String
+  gender       Gender
+  status       PatientStatus   @default(ACTIVE)
+  dateOfBirth  DateTime?
+  microchipId  String?
+  notes        String?
+  ownerId      String
+  owner        Owner           @relation(fields: [ownerId], references: [id])
+  breed        PetBreed        @relation(fields: [breedSlug], references: [slug])
+  clinicId     Int
+  clinic       Clinic          @relation(fields: [clinicId], references: [id])
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  appointments Appointment[]
+  records      MedicalRecord[]
+  invoices     Invoice[]
 }
 
 model Appointment {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,113 +13,23 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { PageHeader } from "@/components/page-header";
 import { DataTable } from "@/components/data-table";
-
-// Mock data
-const patients = [
-  {
-    id: "P001",
-    name: "Max",
-    type: "Golden Retriever",
-    breed: "Golden Retriever",
-    age: 5,
-    gender: "Male",
-    ownerName: "John Smith",
-    status: "Active",
-  },
-  {
-    id: "P002",
-    name: "Bella",
-    type: "Cat",
-    breed: "Siamese",
-    age: 3,
-    gender: "Female",
-    ownerName: "Sarah Johnson",
-    status: "Active",
-  },
-  {
-    id: "P003",
-    name: "Charlie",
-    type: "Dog",
-    breed: "Labrador",
-    age: 7,
-    gender: "Male",
-    ownerName: "Michael Brown",
-    status: "Active",
-  },
-  {
-    id: "P004",
-    name: "Luna",
-    type: "Cat",
-    breed: "Maine Coon",
-    age: 2,
-    gender: "Female",
-    ownerName: "Emily Davis",
-    status: "Active",
-  },
-  {
-    id: "P005",
-    name: "Cooper",
-    type: "Dog",
-    breed: "Beagle",
-    age: 4,
-    gender: "Male",
-    ownerName: "David Wilson",
-    status: "Active",
-  },
-  {
-    id: "P006",
-    name: "Lucy",
-    type: "Dog",
-    breed: "Dachshund",
-    age: 6,
-    gender: "Female",
-    ownerName: "Jennifer Taylor",
-    status: "Inactive",
-  },
-  {
-    id: "P007",
-    name: "Oliver",
-    type: "Cat",
-    breed: "Persian",
-    age: 8,
-    gender: "Male",
-    ownerName: "Robert Anderson",
-    status: "Active",
-  },
-  {
-    id: "P008",
-    name: "Daisy",
-    type: "Dog",
-    breed: "Shih Tzu",
-    age: 3,
-    gender: "Female",
-    ownerName: "Jessica Martinez",
-    status: "Active",
-  },
-  {
-    id: "P009",
-    name: "Rocky",
-    type: "Dog",
-    breed: "German Shepherd",
-    age: 5,
-    gender: "Male",
-    ownerName: "Thomas Garcia",
-    status: "Active",
-  },
-  {
-    id: "P010",
-    name: "Milo",
-    type: "Cat",
-    breed: "Bengal",
-    age: 4,
-    gender: "Male",
-    ownerName: "Lisa Robinson",
-    status: "Inactive",
-  },
-];
+import { PatientStatus, Prisma } from "@prisma/client";
+import { CellContext } from "@tanstack/react-table";
+import { formatDistance } from "date-fns";
 
 export default function PatientsPage() {
-  const [data, setData] = useState(patients);
+  const [data, setData] = useState<
+    Prisma.PatientGetPayload<{ include: { owner: true } }>[]
+  >([]);
+
+  useEffect(() => {
+    (async () => {
+      const req = await fetch(`/api/patients`);
+      const json = await req.json();
+
+      setData(json);
+    })();
+  }, []);
 
   const handleDelete = (id: string) => {
     setData(data.filter((item) => item.id !== id));
@@ -135,18 +45,23 @@ export default function PatientsPage() {
       header: "Name",
     },
     {
-      accessorKey: "type",
-      header: "Type",
-    },
-    {
-      accessorKey: "breed",
+      accessorKey: "breedSlug",
       header: "Breed",
     },
     {
       accessorKey: "age",
       header: "Age",
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      cell: ({ row }: any) => `${row.original.age} years`,
+      cell: ({
+        row,
+      }: CellContext<
+        Prisma.PatientGetPayload<{
+          include: { owner: true };
+        }>,
+        number
+      >) =>
+        row.original.dateOfBirth == null
+          ? "UNKNOWN"
+          : `${formatDistance(row.original.dateOfBirth, new Date())} years`,
     },
     {
       accessorKey: "gender",
@@ -155,22 +70,35 @@ export default function PatientsPage() {
     {
       accessorKey: "ownerName",
       header: "Owner",
+      cell: ({
+        row,
+      }: CellContext<
+        Prisma.PatientGetPayload<{
+          include: { owner: true };
+        }>,
+        number
+      >) => `${row.original.owner.firstName} ${row.original.owner.lastName}`,
     },
     {
       accessorKey: "status",
       header: "Status",
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      cell: ({ row }: any) => {
-        const status = row.original.status;
+      cell: ({
+        row,
+      }: CellContext<
+        Prisma.PatientGetPayload<{
+          include: { owner: true };
+        }>,
+        number
+      >) => {
         return (
           <Badge
             className={
-              status === "Active"
+              row.original.status === PatientStatus.ACTIVE
                 ? "bg-green-100 text-green-800"
                 : "bg-red-100 text-red-800"
             }
           >
-            {status}
+            {row.original.status}
           </Badge>
         );
       },

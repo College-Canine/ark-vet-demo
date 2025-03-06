@@ -10,6 +10,9 @@ export async function GET() {
     where: {
       clinicId: user.clinicId,
     },
+    include: {
+      owner: true,
+    },
   });
 
   return Response.json(patients);
