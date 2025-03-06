@@ -97,7 +97,7 @@ export default function DashboardLayoutClient({
         </div>
       </header>
 
-      <div className="flex flex-1">
+      <div className="flex flex-1 absolute top-16 left-0 right-0 bottom-0">
         {/* Sidebar */}
         <aside
           className={`absolute inset-y-0 left-0 z-20 top-0 bottom-0 w-64 transform border-r bg-white transition-transform duration-200 ease-in-out md:static md:translate-x-0 ${

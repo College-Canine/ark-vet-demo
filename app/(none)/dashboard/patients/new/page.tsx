@@ -48,6 +48,7 @@ export default function NewPatientPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     // In a real app, this would be an API call
     router.push("/dashboard/patients");
   };
