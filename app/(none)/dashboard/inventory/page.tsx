@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,58 +13,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { PageHeader } from "@/components/page-header";
 import { DataTable } from "@/components/data-table";
-
-// Mock data
-const inventoryItems = [
-  {
-    id: "INV001",
-    name: "Vaccine A",
-    category: "Vaccines",
-    quantity: 100,
-    unit: "doses",
-    reorderPoint: 20,
-    status: "In Stock",
-  },
-  {
-    id: "INV002",
-    name: "Antibiotic B",
-    category: "Medications",
-    quantity: 50,
-    unit: "bottles",
-    reorderPoint: 10,
-    status: "Low Stock",
-  },
-  {
-    id: "INV003",
-    name: "Syringe C",
-    category: "Supplies",
-    quantity: 500,
-    unit: "pieces",
-    reorderPoint: 100,
-    status: "In Stock",
-  },
-  {
-    id: "INV004",
-    name: "Pet Food D",
-    category: "Food",
-    quantity: 25,
-    unit: "bags",
-    reorderPoint: 5,
-    status: "In Stock",
-  },
-  {
-    id: "INV005",
-    name: "Shampoo E",
-    category: "Grooming",
-    quantity: 30,
-    unit: "bottles",
-    reorderPoint: 10,
-    status: "In Stock",
-  },
-];
+import { InventoryItem } from "@prisma/client";
 
 export default function InventoryPage() {
-  const [data, setData] = useState(inventoryItems);
+  const [data, setData] = useState<InventoryItem[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const req = await fetch(`/api/inventory`);
+      const json = await req.json();
+
+      setData(json);
+    })();
+  }, []);
 
   const handleDelete = (id: string) => {
     setData(data.filter((item) => item.id !== id));

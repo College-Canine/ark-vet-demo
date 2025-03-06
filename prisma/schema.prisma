@@ -205,8 +205,8 @@ model Invoice {
 }
 
 model InventoryItem {
-  id                Int                 @id @default(autoincrement())
-  itemName          String
+  id                String              @id @default(cuid())
+  name              String
   description       String?
   category          String
   quantity          Int
@@ -217,15 +217,15 @@ model InventoryItem {
   clinic            Clinic              @relation(fields: [clinicId], references: [id])
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
-  InventoryPurchase InventoryPurchase[]
-  InventorySale     InventorySale[]
-  InventoryUsage    InventoryUsage[]
-  InventoryReturn   InventoryReturn[]
+  purchases         InventoryPurchase[]
+  sales             InventorySale[]
+  usages            InventoryUsage[]
+  returns           InventoryReturn[]
 }
 
 model InventoryPurchase {
   id              Int           @id @default(autoincrement())
-  inventoryItemId Int
+  inventoryItemId String
   quantity        Int
   costPerUnit     Decimal
   supplier        String
@@ -236,7 +236,7 @@ model InventoryPurchase {
 
 model InventorySale {
   id              Int           @id @default(autoincrement())
-  inventoryItemId Int
+  inventoryItemId String
   quantity        Int
   salePrice       Decimal
   soldTo          String
@@ -247,7 +247,7 @@ model InventorySale {
 
 model InventoryUsage {
   id              Int           @id @default(autoincrement())
-  inventoryItemId Int
+  inventoryItemId String
   quantity        Int
   usedFor         String
   usageDate       DateTime
@@ -257,7 +257,7 @@ model InventoryUsage {
 
 model InventoryReturn {
   id              Int           @id @default(autoincrement())
-  inventoryItemId Int
+  inventoryItemId String
   quantity        Int
   returnedBy      String
   returnDate      DateTime

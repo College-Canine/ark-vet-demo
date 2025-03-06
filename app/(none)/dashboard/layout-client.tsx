@@ -4,7 +4,7 @@ import type React from "react";
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -44,6 +44,7 @@ export default function DashboardLayout({
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogout = () => {
     // Implement logout logic here
@@ -51,6 +52,44 @@ export default function DashboardLayout({
     // After logout, redirect to the home page
     router.push("/");
   };
+
+  const routes = [
+    {
+      path: "/dashboard",
+      name: "Dashboard",
+      icon: <Home className="h-5 w-5" />,
+    },
+    {
+      path: "/dashboard/appointments",
+      name: "Appointments",
+      icon: <Calendar className="h-5 w-5" />,
+    },
+    {
+      path: "/dashboard/patients",
+      name: "Patients",
+      icon: <Users className="h-5 w-5" />,
+    },
+    {
+      path: "/dashboard/records",
+      name: "Medical Records",
+      icon: <FileText className="h-5 w-5" />,
+    },
+    {
+      path: "/dashboard/billing",
+      name: "Billing",
+      icon: <DollarSign className="h-5 w-5" />,
+    },
+    {
+      path: "/dashboard/inventory",
+      name: "Inventory",
+      icon: <Package className="h-5 w-5" />,
+    },
+    {
+      path: "/dashboard/reports",
+      name: "Reports",
+      icon: <PieChart className="h-5 w-5" />,
+    },
+  ];
 
   return (
     <div className=" flex min-h-screen flex-col">
@@ -145,55 +184,30 @@ export default function DashboardLayout({
           <div className="flex h-full flex-col">
             <div className="flex-1 overflow-auto py-4">
               <nav className="grid gap-1 px-2">
-                <Link
-                  href="/dashboard"
-                  className="flex items-center gap-3 rounded-lg bg-gray-100 px-3 py-2 text-sm font-medium"
-                >
-                  <Home className="h-5 w-5" />
-                  Dashboard
-                </Link>
-                <Link
-                  href="/dashboard/appointments"
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-gray-100"
-                >
-                  <Calendar className="h-5 w-5" />
-                  Appointments
-                </Link>
-                <Link
-                  href="/dashboard/patients"
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-gray-100"
-                >
-                  <Users className="h-5 w-5" />
-                  Patients
-                </Link>
-                <Link
-                  href="/dashboard/records"
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-gray-100"
-                >
-                  <FileText className="h-5 w-5" />
-                  Medical Records
-                </Link>
-                <Link
-                  href="/dashboard/billing"
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-gray-100"
-                >
-                  <DollarSign className="h-5 w-5" />
-                  Billing
-                </Link>
-                <Link
-                  href="/dashboard/inventory"
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-gray-100"
-                >
-                  <Package className="h-5 w-5" />
-                  Inventory
-                </Link>
-                <Link
-                  href="/dashboard/reports"
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-gray-100"
-                >
-                  <PieChart className="h-5 w-5" />
-                  Reports
-                </Link>
+                {routes.map((i) => {
+                  if (i.path == pathname)
+                    return (
+                      <Link
+                        key={i.path}
+                        href={i.path}
+                        className="flex items-center gap-3 rounded-lg bg-gray-100 px-3 py-2 text-sm font-medium"
+                      >
+                        {i.icon}
+                        {i.name}
+                      </Link>
+                    );
+
+                  return (
+                    <Link
+                      key={i.path}
+                      href={i.path}
+                      className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-gray-100"
+                    >
+                      {i.icon}
+                      {i.name}
+                    </Link>
+                  );
+                })}
               </nav>
             </div>
             <div className="border-t p-4">
