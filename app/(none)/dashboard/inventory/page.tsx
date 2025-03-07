@@ -36,47 +36,54 @@ export default function InventoryPage() {
   const columns = [
     {
       accessorKey: "id",
-      header: "Item ID",
+      header: t("table_item_id"),
     },
     {
       accessorKey: "name",
-      header: "Name",
+      header: t("table_name"),
     },
     {
       accessorKey: "category",
-      header: "Category",
+      header: t("table_inventory_category"),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cell: ({ row }: any) =>
+        `${t(`inventory_category_${row.original.category}`)}`,
     },
     {
       accessorKey: "quantity",
-      header: "Quantity",
+      header: t("table_quantity"),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       cell: ({ row }: any) => `${row.original.quantity} ${row.original.unit}`,
     },
     {
-      accessorKey: "reorderPoint",
-      header: "Reorder Point",
+      accessorKey: "reorderLevel",
+      header: t("table_reorder_level"),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cell: ({ row }: any) =>
+        `${row.original.reorderLevel} ${row.original.unit}`,
     },
     {
       accessorKey: "status",
-      header: "Status",
+      header: t("table_status"),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       cell: ({ row }: any) => {
-        const status = row.original.status;
-        let color;
-        switch (status) {
-          case "In Stock":
-            color = "bg-green-100 text-green-800";
-            break;
-          case "Low Stock":
-            color = "bg-yellow-100 text-yellow-800";
-            break;
-          case "Out of Stock":
-            color = "bg-red-100 text-red-800";
-            break;
-          default:
-            color = "bg-gray-100 text-gray-800";
-        }
-        return <Badge className={color}>{status}</Badge>;
+        return (
+          <Badge
+            className={
+              row.original.quantity <= 0
+                ? "bg-red-100 text-red-800"
+                : row.original.quantity <= (row.original.reorderLevel || 25)
+                ? "bg-yellow-100 text-yellow-800"
+                : "bg-green-100 text-green-800"
+            }
+          >
+            {row.original.quantity <= 0
+              ? t("level_out_of_stock")
+              : row.original.quantity <= (row.original.reorderLevel || 25)
+              ? t("level_low_stock")
+              : t("level_in_stock")}
+          </Badge>
+        );
       },
     },
     {

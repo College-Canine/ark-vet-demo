@@ -136,7 +136,7 @@ export default function DashboardLayout({
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
-                placeholder="Search..."
+                placeholder={t("search_placeholder")}
                 className="w-64 rounded-lg bg-gray-50 pl-8 md:w-80"
               />
             </div>
@@ -159,17 +159,17 @@ export default function DashboardLayout({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuLabel>{t("my_account_sidebar")}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <Link href="/dashboard/preferences">
                   <UserIcon className="mr-2 h-4 w-4" />
-                  <span>Preferences</span>
+                  <span>{t("preferences_sidebar")}</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleLogout}>
                 <LogOut className="mr-2 h-4 w-4" />
-                <span>Log out</span>
+                <span>{t("action_logout")}</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

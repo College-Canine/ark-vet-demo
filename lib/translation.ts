@@ -43,7 +43,7 @@ function loadTranslations(): void {
  * @returns A function that takes a translation key and a language code and returns the corresponding translation.
  */
 export function instantiateTranslation(
-  lang: string = "ja"
+  lang: string = "en_US"
 ): (key: string) => string {
   if (Object.keys(translations).length === 0) {
     loadTranslations();

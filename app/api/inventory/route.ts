@@ -26,10 +26,13 @@ export async function POST(req: Request) {
   const inventoryItem = await prisma.inventoryItem.create({
     data: {
       clinicId: user.clinicId,
+      supplierSlug: data.supplierId,
       name: data.name,
       description: data.description,
-      quantity: data.quantity,
+      quantity: parseInt(data.quantity),
+      reorderLevel: parseInt(data.reorderPoint),
       category: data.category,
+      unit: data.unit,
     },
   });
 

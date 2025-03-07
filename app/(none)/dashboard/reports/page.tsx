@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { PageHeader } from "@/components/page-header";
 import { DataTable } from "@/components/data-table";
+import { instantiateTranslation } from "@/lib/translation";
 
 // Mock data
 const reports = [
@@ -56,6 +57,8 @@ const reports = [
 export default function ReportsPage() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [data, setData] = useState(reports);
+
+  const t = instantiateTranslation();
 
   const columns = [
     {
@@ -116,16 +119,16 @@ export default function ReportsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Reports"
-        description="View and generate reports."
-        createButtonLabel="Generate New Report"
+        title={t("reports_main_title")}
+        description={t("reports_main_description")}
+        createButtonLabel={t("reports_main_action")}
         createButtonLink="/dashboard/reports/new"
       />
       <DataTable
         columns={columns}
         data={data}
         searchColumn="name"
-        searchPlaceholder="Search reports..."
+        searchPlaceholder={t("reports_main_search")}
       />
     </div>
   );
