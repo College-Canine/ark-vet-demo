@@ -51,6 +51,13 @@ export function OwnerSearch({ onSelect }: OwnerSearchProps) {
         onSave={(ownerId: string) => {
           if (onSelect) onSelect(ownerId);
           setOwnerId(ownerId);
+
+          (async () => {
+            const req = await fetch(`/api/owners`);
+            const json = await req.json();
+
+            setOwners(json);
+          })();
         }}
       />
       <Popover open={open} onOpenChange={setOpen}>

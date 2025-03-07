@@ -23,32 +23,43 @@ export async function POST(req: Request) {
   if (!user)
     return Response.json({ error: "Not authenticated." }, { status: 400 });
 
-  const data = await req.json();
+  try {
+    const data = await req.json();
 
-  console.log(data);
+    console.log(data);
 
-  const patient = await prisma.patient.create({
-    data: {
-      name: data.name,
-      clinic: {
-        connect: {
-          id: user.clinicId,
+    const patient = await prisma.patient.create({
+      data: {
+        name: data.name,
+        clinic: {
+          connect: {
+            id: user.clinicId,
+          },
         },
-      },
-      breed: {
-        connect: {
-          slug: data.breed,
+        breed: {
+          connect: {
+            slug: data.breed,
+          },
         },
-      },
-      // ownerId: data.ownerId,
-      gender: data.gender,
-      owner: {
-        connect: {
-          id: data.ownerId,
+        // ownerId: data.ownerId,
+        gender: data.gender,
+        owner: {
+          connect: {
+            id: data.ownerId,
+          },
         },
+        dateOfBirth: isNaN(Date.parse(data.dateOfBirth))
+          ? undefined
+          : new Date(data.dateOfBirth),
       },
-    },
-  });
+    });
 
-  return Response.json(patient);
+    return Response.json(patient);
+  } catch (error) {
+    console.log(error?.toString());
+    return Response.json(
+      { error: "Internal Server Error, please try again later." },
+      { status: 500 }
+    );
+  }
 }

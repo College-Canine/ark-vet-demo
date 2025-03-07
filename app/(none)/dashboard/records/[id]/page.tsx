@@ -1,78 +1,28 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { DetailView } from "@/components/detail-view";
 import { DetailItem } from "@/components/detail-item";
+import prisma from "@/lib/prisma";
+import { notFound } from "next/navigation";
 
-// Mock data function
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getMedicalRecord = (id: string) => {
-  return {
-    id: "MR001",
-    date: new Date(2023, 5, 15),
-    patientName: "Max",
-    patientId: "P001",
-    patientType: "Golden Retriever",
-    ownerName: "John Smith",
-    type: "Vaccination",
-    provider: "Dr. Johnson",
-    status: "Completed",
-    description: "Annual vaccinations - DHPP, Rabies, Bordetella",
-    notes:
-      "Patient was well-behaved during the procedure. No adverse reactions observed.",
-    medications: [
-      {
-        name: "DHPP Vaccine",
-        dosage: "1 ml",
-        route: "Subcutaneous",
-      },
-      {
-        name: "Rabies Vaccine",
-        dosage: "1 ml",
-        route: "Subcutaneous",
-      },
-      {
-        name: "Bordetella Vaccine",
-        dosage: "1 ml",
-        route: "Intranasal",
-      },
-    ],
-    followUp: "Next vaccination due in 1 year. Schedule reminder for owner.",
-    createdBy: "Dr. Johnson",
-    createdAt: new Date(2023, 5, 15, 10, 30),
-    updatedAt: new Date(2023, 5, 15, 10, 45),
-  };
-};
+export default async function MedicalRecordDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  // const handleDelete = () => {
+  //   // In a real app, this would be an API call
+  //   router.push("/dashboard/records");
+  // };
 
-export default function MedicalRecordDetailPage() {
-  const params = { id: "testing" };
-  const router = useRouter();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [record, setRecord] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const { id } = await params;
+  const record = await prisma.medicalRecord.findUnique({
+    where: {
+      id: parseInt(id),
+    },
+  });
 
-  useEffect(() => {
-    // In a real app, this would be an API call
-    const data = getMedicalRecord(params.id);
-    setRecord(data);
-    setLoading(false);
-  }, [params.id]);
-
-  const handleDelete = () => {
-    // In a real app, this would be an API call
-    router.push("/dashboard/records");
-  };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!record) {
-    return <div>Medical record not found</div>;
-  }
+  if (record == null) return notFound();
 
   return (
     <DetailView
@@ -80,7 +30,7 @@ export default function MedicalRecordDetailPage() {
       description={`Record #${record.id}`}
       backHref="/dashboard/records"
       editHref={`/dashboard/records/${record.id}/edit`}
-      onDelete={handleDelete}
+      // onDelete={handleDelete}
     >
       <div className="grid gap-6">
         <div>

@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import { Login } from "@/lib/actions/authentication";
+import { toast } from "sonner";
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,6 +22,11 @@ export default function LoginPage() {
     const response = await Login(new FormData(e.currentTarget));
 
     console.log(response);
+
+    if (response.error) {
+      setIsLoading(false);
+      return toast(response.error);
+    }
 
     // TODO: Implement error handling
 

@@ -167,22 +167,47 @@ model Appointment {
   Invoice        Invoice[]
 }
 
+enum MedicalRecordType {
+  vaccination
+  examination
+  surgery
+  dental
+  xray
+  medication
+  other
+}
+
+enum MedicalRecordStatus {
+  COMPLETED
+  PENDING
+  IN_PROGRESS
+  REQUIRES_FOLLOW_UP
+}
+
 model MedicalRecord {
-  id            Int          @id @default(autoincrement())
+  id Int @id @default(autoincrement())
+
   patientId     String
   appointmentId Int?
   clinicId      Int
-  diagnosis     String?
-  treatment     String?
-  medications   String?
-  allergies     String?
-  labResults    String?
-  notes         String?
-  patient       Patient      @relation(fields: [patientId], references: [id])
-  appointment   Appointment? @relation(fields: [appointmentId], references: [id])
-  clinic        Clinic       @relation(fields: [clinicId], references: [id])
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+  type          MedicalRecordType
+  status        MedicalRecordStatus
+
+  // diagnosis     String?
+  // treatment     String?
+  // medications   String?
+  // allergies     String?
+  // labResults    String?
+
+  notes    String?
+  recordAt DateTime
+
+  patient     Patient      @relation(fields: [patientId], references: [id])
+  appointment Appointment? @relation(fields: [appointmentId], references: [id])
+  clinic      Clinic       @relation(fields: [clinicId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Invoice {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
@@ -15,104 +15,20 @@ import {
 import { PageHeader } from "@/components/page-header";
 import { DataTable } from "@/components/data-table";
 import { instantiateTranslation } from "@/lib/translation";
-
-// Mock data
-const records = [
-  {
-    id: "MR001",
-    date: new Date(2023, 5, 15),
-    patientName: "Max",
-    patientId: "P001",
-    type: "Vaccination",
-    provider: "Dr. Johnson",
-    status: "Completed",
-  },
-  {
-    id: "MR002",
-    date: new Date(2023, 5, 14),
-    patientName: "Bella",
-    patientId: "P002",
-    type: "Surgery",
-    provider: "Dr. Wilson",
-    status: "Completed",
-  },
-  {
-    id: "MR003",
-    date: new Date(2023, 5, 13),
-    patientName: "Charlie",
-    patientId: "P003",
-    type: "Examination",
-    provider: "Dr. Martinez",
-    status: "Completed",
-  },
-  {
-    id: "MR004",
-    date: new Date(2023, 5, 12),
-    patientName: "Luna",
-    patientId: "P004",
-    type: "Dental",
-    provider: "Dr. Johnson",
-    status: "Completed",
-  },
-  {
-    id: "MR005",
-    date: new Date(2023, 5, 11),
-    patientName: "Cooper",
-    patientId: "P005",
-    type: "X-Ray",
-    provider: "Dr. Wilson",
-    status: "Completed",
-  },
-  {
-    id: "MR006",
-    date: new Date(2023, 5, 10),
-    patientName: "Lucy",
-    patientId: "P006",
-    type: "Medication",
-    provider: "Dr. Martinez",
-    status: "Completed",
-  },
-  {
-    id: "MR007",
-    date: new Date(2023, 5, 9),
-    patientName: "Oliver",
-    patientId: "P007",
-    type: "Vaccination",
-    provider: "Dr. Johnson",
-    status: "Completed",
-  },
-  {
-    id: "MR008",
-    date: new Date(2023, 5, 8),
-    patientName: "Daisy",
-    patientId: "P008",
-    type: "Examination",
-    provider: "Dr. Wilson",
-    status: "Completed",
-  },
-  {
-    id: "MR009",
-    date: new Date(2023, 5, 7),
-    patientName: "Rocky",
-    patientId: "P009",
-    type: "Surgery",
-    provider: "Dr. Martinez",
-    status: "Completed",
-  },
-  {
-    id: "MR010",
-    date: new Date(2023, 5, 6),
-    patientName: "Milo",
-    patientId: "P010",
-    type: "Vaccination",
-    provider: "Dr. Johnson",
-    status: "Completed",
-  },
-];
+import { MedicalRecord } from "@prisma/client";
 
 export default function MedicalRecordsPage() {
-  const [data, setData] = useState(records);
+  const [data, setData] = useState<MedicalRecord[]>([]);
   const t = instantiateTranslation();
+
+  useEffect(() => {
+    (async () => {
+      const req = await fetch(`/api/records`);
+      const json = await req.json();
+
+      setData(json);
+    })();
+  }, []);
 
   const handleDelete = (id: string) => {
     setData(data.filter((item) => item.id !== id));

@@ -20,7 +20,7 @@ const translations: Translations = {};
  * @param csvFilePath - The file path to your CSV.
  */
 function loadTranslations(): void {
-  console.log(lang);
+  // console.log(lang);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   lang.forEach((record: any) => {
     const key = record["key"];
