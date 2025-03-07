@@ -18,15 +18,20 @@ import {
   Plus,
   MoreHorizontal,
 } from "lucide-react";
+import { instantiateTranslation } from "@/lib/translation";
 
 export default function DashboardPage() {
+  const t = instantiateTranslation();
+
   return (
     <div className="mx-auto max-w-7xl">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
+          <h1 className="text-2xl font-bold tracking-tight">
+            {t("dashboard_main_title")}
+          </h1>
           <p className="text-muted-foreground">
-            Welcome back, Dr. Smith. Here&apos;s what&apos;s happening today.
+            {t("dashboard_main_description")}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -36,7 +41,7 @@ export default function DashboardPage() {
           </Button>
           <Button size="sm">
             <Plus className="mr-2 h-4 w-4" />
-            New Appointment
+            {t("dashboard_main_action")}
           </Button>
         </div>
       </div>

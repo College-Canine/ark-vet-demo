@@ -16,8 +16,10 @@ import { DataTable } from "@/components/data-table";
 import { PatientStatus, Prisma } from "@prisma/client";
 import { CellContext } from "@tanstack/react-table";
 import { formatDistance } from "date-fns";
+import { instantiateTranslation } from "@/lib/translation";
 
 export default function PatientsPage() {
+  const t = instantiateTranslation();
   const [data, setData] = useState<
     Prisma.PatientGetPayload<{ include: { owner: true } }>[]
   >([]);
@@ -121,18 +123,18 @@ export default function PatientsPage() {
                 <Link href={`/dashboard/patients/${patient.id}`}>
                   <DropdownMenuItem>
                     <Eye className="mr-2 h-4 w-4" />
-                    View
+                    {t("action_view")}
                   </DropdownMenuItem>
                 </Link>
                 <Link href={`/dashboard/patients/${patient.id}/edit`}>
                   <DropdownMenuItem>
                     <Pencil className="mr-2 h-4 w-4" />
-                    Edit
+                    {t("action_edit")}
                   </DropdownMenuItem>
                 </Link>
                 <DropdownMenuItem onClick={() => handleDelete(patient.id)}>
                   <Trash className="mr-2 h-4 w-4" />
-                  Delete
+                  {t("action_delete")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -145,16 +147,16 @@ export default function PatientsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Patients"
-        description="Manage your patient records."
-        createButtonLabel="New Patient"
+        title={t("patients_main_title")}
+        description={t("patients_main_description")}
+        createButtonLabel={t("patients_main_action")}
         createButtonLink="/dashboard/patients/new"
       />
       <DataTable
         columns={columns}
         data={data}
         searchColumn="name"
-        searchPlaceholder="Search patients..."
+        searchPlaceholder={t("patients_main_search")}
       />
     </div>
   );

@@ -1,47 +1,60 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ChevronRight } from "lucide-react"
-
-const settingsCategories = [
-  {
-    title: "General",
-    description: "Basic clinic information and preferences",
-    href: "/dashboard/settings/general",
-  },
-  {
-    title: "Users & Permissions",
-    description: "Manage staff accounts and access levels",
-    href: "/dashboard/settings/users",
-  },
-  {
-    title: "Billing & Payments",
-    description: "Configure payment methods and invoice settings",
-    href: "/dashboard/settings/billing",
-  },
-  {
-    title: "Notifications",
-    description: "Set up email and SMS notifications",
-    href: "/dashboard/settings/notifications",
-  },
-  {
-    title: "Integrations",
-    description: "Connect with third-party services and apps",
-    href: "/dashboard/settings/integrations",
-  },
-  {
-    title: "Data & Privacy",
-    description: "Manage data retention and privacy settings",
-    href: "/dashboard/settings/data-privacy",
-  },
-]
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ChevronRight } from "lucide-react";
+import { instantiateTranslation } from "@/lib/translation";
 
 export default function SettingsPage() {
+  const t = instantiateTranslation();
+
+  const settingsCategories = [
+    {
+      title: t("settings_card_general_title"),
+      description: t("settings_card_general_description"),
+      href: "/dashboard/settings/general",
+    },
+    {
+      title: t("settings_card_users_title"),
+      description: t("settings_card_users_description"),
+      href: "/dashboard/settings/users",
+    },
+    {
+      title: t("settings_card_billing_title"),
+      description: t("settings_card_users_description"),
+      href: "/dashboard/settings/billing",
+    },
+    {
+      title: t("settings_card_notifications_title"),
+      description: t("settings_card_notifications_description"),
+      href: "/dashboard/settings/notifications",
+    },
+    {
+      title: t("settings_card_integrations_title"),
+      description: t("settings_card_integrations_description"),
+      href: "/dashboard/settings/integrations",
+    },
+    {
+      title: t("settings_card_privacy_title"),
+      description: t("settings_card_privacy_description"),
+      href: "/dashboard/settings/data-privacy",
+    },
+  ];
+
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
-        <p className="text-muted-foreground">Manage your clinic settings and preferences</p>
+        <h1 className="text-3xl font-bold tracking-tight">
+          {t("settings_main_title")}
+        </h1>
+        <p className="text-muted-foreground">
+          {t("settings_main_description")}
+        </p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -62,6 +75,5 @@ export default function SettingsPage() {
         ))}
       </div>
     </div>
-  )
+  );
 }
-

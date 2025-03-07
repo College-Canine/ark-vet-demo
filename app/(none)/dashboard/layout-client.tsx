@@ -34,6 +34,7 @@ import {
 } from "lucide-react";
 import { User } from "lucia";
 import Image from "next/image";
+import { instantiateTranslation } from "@/lib/translation";
 
 export default function DashboardLayout({
   children,
@@ -45,6 +46,7 @@ export default function DashboardLayout({
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const t = instantiateTranslation();
 
   const handleLogout = () => {
     // Implement logout logic here
@@ -56,37 +58,37 @@ export default function DashboardLayout({
   const routes = [
     {
       path: "/dashboard",
-      name: "Dashboard",
+      name: t("dashboard_sidebar"),
       icon: <Home className="h-5 w-5" />,
     },
     {
       path: "/dashboard/appointments",
-      name: "Appointments",
+      name: t("appointments_sidebar"),
       icon: <Calendar className="h-5 w-5" />,
     },
     {
       path: "/dashboard/patients",
-      name: "Patients",
+      name: t("patients_sidebar"),
       icon: <Users className="h-5 w-5" />,
     },
     {
       path: "/dashboard/records",
-      name: "Medical Records",
+      name: t("records_sidebar"),
       icon: <FileText className="h-5 w-5" />,
     },
     {
       path: "/dashboard/billing",
-      name: "Billing",
+      name: t("billing_sidebar"),
       icon: <DollarSign className="h-5 w-5" />,
     },
     {
       path: "/dashboard/inventory",
-      name: "Inventory",
+      name: t("inventory_sidebar"),
       icon: <Package className="h-5 w-5" />,
     },
     {
       path: "/dashboard/reports",
-      name: "Reports",
+      name: t("reports_sidebar"),
       icon: <PieChart className="h-5 w-5" />,
     },
   ];
@@ -217,7 +219,7 @@ export default function DashboardLayout({
                   className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-gray-100"
                 >
                   <Settings className="h-5 w-5" />
-                  Settings
+                  {t("settings_sidebar")}
                 </Link>
               </nav>
             </div>

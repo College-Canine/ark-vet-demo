@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ArrowLeft, Pencil, Trash } from "lucide-react";
+import { instantiateTranslation } from "@/lib/translation";
 
 interface DetailViewProps {
   title: string;
@@ -28,6 +29,8 @@ export function DetailView({
   onDelete,
   children,
 }: DetailViewProps) {
+  const t = instantiateTranslation();
+
   return (
     <div className="mx-auto max-w-3xl">
       <div className="mb-4 flex justify-between">
@@ -35,7 +38,7 @@ export function DetailView({
           <Link href={backHref}>
             <Button variant="ghost" size="sm" className="gap-1">
               <ArrowLeft className="h-4 w-4" />
-              Back
+              {t("action_back")}
             </Button>
           </Link>
         </div>
@@ -44,7 +47,7 @@ export function DetailView({
             <Link href={editHref}>
               <Button variant="outline" size="sm" className="gap-1">
                 <Pencil className="h-4 w-4" />
-                Edit
+                {t("action_edit")}
               </Button>
             </Link>
           )}
@@ -56,7 +59,7 @@ export function DetailView({
               onClick={onDelete}
             >
               <Trash className="h-4 w-4" />
-              Delete
+              {t("action_delete")}
             </Button>
           )}
         </div>

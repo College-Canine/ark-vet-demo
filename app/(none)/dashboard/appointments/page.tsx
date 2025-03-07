@@ -16,8 +16,10 @@ import { PageHeader } from "@/components/page-header";
 import { DataTable } from "@/components/data-table";
 import { Prisma } from "@prisma/client";
 import { CellContext } from "@tanstack/react-table";
+import { instantiateTranslation } from "@/lib/translation";
 
 export default function AppointmentsPage() {
+  const t = instantiateTranslation();
   const [data, setData] = useState<
     Prisma.AppointmentGetPayload<{
       include: { patient: true; owner: true };
@@ -138,18 +140,18 @@ export default function AppointmentsPage() {
                 <Link href={`/dashboard/appointments/${appointment.id}`}>
                   <DropdownMenuItem>
                     <Eye className="mr-2 h-4 w-4" />
-                    View
+                    {t("action_view")}
                   </DropdownMenuItem>
                 </Link>
                 <Link href={`/dashboard/appointments/${appointment.id}/edit`}>
                   <DropdownMenuItem>
                     <Pencil className="mr-2 h-4 w-4" />
-                    Edit
+                    {t("action_edit")}
                   </DropdownMenuItem>
                 </Link>
                 <DropdownMenuItem onClick={() => handleDelete(appointment.id)}>
                   <Trash className="mr-2 h-4 w-4" />
-                  Delete
+                  {t("action_delete")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -162,16 +164,16 @@ export default function AppointmentsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Appointments"
-        description="Manage your upcoming and past appointments."
-        createButtonLabel="New Appointment"
+        title={t("appointments_main_title")}
+        description={t("appointments_main_description")}
+        createButtonLabel={t("appointments_main_action")}
         createButtonLink="/dashboard/appointments/new"
       />
       <DataTable
         columns={columns}
         data={data}
         searchColumn="patientName"
-        searchPlaceholder="Search patients..."
+        searchPlaceholder={t("appointments_main_search")}
       />
     </div>
   );

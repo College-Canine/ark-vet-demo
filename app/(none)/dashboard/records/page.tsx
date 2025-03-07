@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { PageHeader } from "@/components/page-header";
 import { DataTable } from "@/components/data-table";
+import { instantiateTranslation } from "@/lib/translation";
 
 // Mock data
 const records = [
@@ -111,6 +112,7 @@ const records = [
 
 export default function MedicalRecordsPage() {
   const [data, setData] = useState(records);
+  const t = instantiateTranslation();
 
   const handleDelete = (id: string) => {
     setData(data.filter((item) => item.id !== id));
@@ -175,18 +177,18 @@ export default function MedicalRecordsPage() {
                 <Link href={`/dashboard/records/${record.id}`}>
                   <DropdownMenuItem>
                     <Eye className="mr-2 h-4 w-4" />
-                    View
+                    {t("action_view")}
                   </DropdownMenuItem>
                 </Link>
                 <Link href={`/dashboard/records/${record.id}/edit`}>
                   <DropdownMenuItem>
                     <Pencil className="mr-2 h-4 w-4" />
-                    Edit
+                    {t("action_edit")}
                   </DropdownMenuItem>
                 </Link>
                 <DropdownMenuItem onClick={() => handleDelete(record.id)}>
                   <Trash className="mr-2 h-4 w-4" />
-                  Delete
+                  {t("action_delete")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -199,16 +201,16 @@ export default function MedicalRecordsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Medical Records"
-        description="View and manage patient medical records."
-        createButtonLabel="New Record"
+        title={t("records_main_title")}
+        description={t("records_main_description")}
+        createButtonLabel={t("records_main_action")}
         createButtonLink="/dashboard/records/new"
       />
       <DataTable
         columns={columns}
         data={data}
         searchColumn="patientName"
-        searchPlaceholder="Search patients..."
+        searchPlaceholder={t("records_main_search")}
       />
     </div>
   );

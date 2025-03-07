@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { PageHeader } from "@/components/page-header";
 import { DataTable } from "@/components/data-table";
+import { instantiateTranslation } from "@/lib/translation";
 
 // Mock data
 const invoices = [
@@ -66,6 +67,7 @@ const invoices = [
 
 export default function BillingPage() {
   const [data, setData] = useState(invoices);
+  const t = instantiateTranslation();
 
   const handleDelete = (id: string) => {
     setData(data.filter((item) => item.id !== id));
@@ -146,18 +148,18 @@ export default function BillingPage() {
                 <Link href={`/dashboard/billing/${invoice.id}`}>
                   <DropdownMenuItem>
                     <Eye className="mr-2 h-4 w-4" />
-                    View
+                    {t("action_view")}
                   </DropdownMenuItem>
                 </Link>
                 <Link href={`/dashboard/billing/${invoice.id}/edit`}>
                   <DropdownMenuItem>
                     <Pencil className="mr-2 h-4 w-4" />
-                    Edit
+                    {t("action_edit")}
                   </DropdownMenuItem>
                 </Link>
                 <DropdownMenuItem onClick={() => handleDelete(invoice.id)}>
                   <Trash className="mr-2 h-4 w-4" />
-                  Delete
+                  {t("action_delete")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -170,16 +172,16 @@ export default function BillingPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Billing"
-        description="Manage invoices and payments."
-        createButtonLabel="New Invoice"
+        title={t("billing_main_title")}
+        description={t("billing_main_description")}
+        createButtonLabel={t("billing_main_action")}
         createButtonLink="/dashboard/billing/new"
       />
       <DataTable
         columns={columns}
         data={data}
         searchColumn="patientName"
-        searchPlaceholder="Search patients..."
+        searchPlaceholder={t("billing_main_search")}
       />
     </div>
   );

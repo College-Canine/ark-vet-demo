@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { instantiateTranslation } from "@/lib/translation";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -35,8 +36,9 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   searchColumn,
-  searchPlaceholder = "Search...",
+  searchPlaceholder,
 }: DataTableProps<TData, TValue>) {
+  const t = instantiateTranslation();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
@@ -62,7 +64,7 @@ export function DataTable<TData, TValue>({
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder={searchPlaceholder}
+              placeholder={searchPlaceholder || t("search_placeholder")}
               value={
                 (table.getColumn(searchColumn)?.getFilterValue() as string) ??
                 ""
@@ -121,7 +123,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {t("no_results")}
                 </TableCell>
               </TableRow>
             )}
@@ -150,7 +152,7 @@ export function DataTable<TData, TValue>({
             disabled={!table.getCanPreviousPage()}
           >
             <ChevronLeft className="h-4 w-4" />
-            <span className="sr-only">Previous page</span>
+            <span className="sr-only">{t("previous_page")}</span>
           </Button>
           <Button
             variant="outline"
@@ -159,7 +161,7 @@ export function DataTable<TData, TValue>({
             disabled={!table.getCanNextPage()}
           >
             <ChevronRight className="h-4 w-4" />
-            <span className="sr-only">Next page</span>
+            <span className="sr-only">{t("next_page")}</span>
           </Button>
         </div>
       </div>

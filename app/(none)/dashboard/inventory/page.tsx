@@ -14,9 +14,11 @@ import {
 import { PageHeader } from "@/components/page-header";
 import { DataTable } from "@/components/data-table";
 import { InventoryItem } from "@prisma/client";
+import { instantiateTranslation } from "@/lib/translation";
 
 export default function InventoryPage() {
   const [data, setData] = useState<InventoryItem[]>([]);
+  const t = instantiateTranslation();
 
   useEffect(() => {
     (async () => {
@@ -95,18 +97,18 @@ export default function InventoryPage() {
                 <Link href={`/dashboard/inventory/${item.id}`}>
                   <DropdownMenuItem>
                     <Eye className="mr-2 h-4 w-4" />
-                    View
+                    {t("action_view")}
                   </DropdownMenuItem>
                 </Link>
                 <Link href={`/dashboard/inventory/${item.id}/edit`}>
                   <DropdownMenuItem>
                     <Pencil className="mr-2 h-4 w-4" />
-                    Edit
+                    {t("action_edit")}
                   </DropdownMenuItem>
                 </Link>
                 <DropdownMenuItem onClick={() => handleDelete(item.id)}>
                   <Trash className="mr-2 h-4 w-4" />
-                  Delete
+                  {t("action_delete")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -119,16 +121,16 @@ export default function InventoryPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Inventory"
-        description="Manage your inventory items."
-        createButtonLabel="New Item"
+        title={t("inventory_main_title")}
+        description={t("inventory_main_description")}
+        createButtonLabel={t("inventory_main_action")}
         createButtonLink="/dashboard/inventory/new"
       />
       <DataTable
         columns={columns}
         data={data}
         searchColumn="name"
-        searchPlaceholder="Search items..."
+        searchPlaceholder={t("inventory_main_search")}
       />
     </div>
   );

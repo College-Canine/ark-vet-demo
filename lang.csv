@@ -1,0 +1,55 @@
+key,en_US,es_ES,fr_FR,hi,ru,ja,iw,de,zh_CN
+dashboard_sidebar,Dashboard,Panel,Tableau de bord,डैशबोर्ड,Панель управления,ダッシュボード,לוּחַ מַחווָנִים,Armaturenbrett,仪表板
+appointments_sidebar,Appointments,Equipo,Rendez-vous,नियुक्ति,Назначения,予約,פגישות,Termine,预约
+patients_sidebar,Patients,Pacientes,Patients,मरीजों,Пациенты,患者,חולים,Patienten,患者
+records_sidebar,Medical Records,Registros médicos,Dossiers médicaux,मेडिकल रिकॉर्ड,Медицинские записи,医療記録,רשומות רפואיות,Krankenakten,医疗记录
+billing_sidebar,Billing,Facturación,Facturation,बिलिंग,Биллинг,請求する,חיוב,Abrechnung,计费
+inventory_sidebar,Inventory,Inventario,Inventaire,भंडार,Инвентарь,在庫,מְלַאי,Inventar,存货
+reports_sidebar,Reports,Informes,Rapports,रिपोर्टों,Отчеты,レポート,דוחות,Berichte,报告
+settings_sidebar,Settings,Ajustes,Paramètres,सेटिंग्स,Настройки,設定,הגדרות,Einstellungen,设置
+dashboard_main_title,Dashboard,Panel,Tableau de bord,डैशबोर्ड,Панель управления,ダッシュボード,לוּחַ מַחווָנִים,Armaturenbrett,仪表板
+dashboard_main_description,"Welcome back, Dr. Smith. Here's what's happening today.","Bienvenido de nuevo, doctora Smith. Esto es lo que está sucediendo hoy.","Bon retour, Dr Smith. Voici ce qui se passe aujourd'hui.","पुनः स्वागत है, डॉ. स्मिथ। यहाँ आज क्या हो रहा है.","С возвращением, доктор Смит. Вот что происходит сегодня.",おかえりなさい、スミス博士。今日の出来事は次のとおりです。,"ברוך הבא, ד""ר סמית'. הנה מה שקורה היום.","Willkommen zurück, Dr. Smith. Hier ist, was heute passiert.",欢迎回来，史密斯博士。这就是今天发生的事情。
+dashboard_main_action,New Appointment,Nueva cita,Nouveau rendez-vous,नई नियुक्ति,Новое назначение,新しい予定,מינוי חדש,Neuer Termin,新的约会
+dashboard_main_search,Search...,Buscar...,Recherche...,खोज...,Поиск...,検索...,לְחַפֵּשׂ...,Suchen...,搜索...
+appointments_main_title,Appointments,Equipo,Rendez-vous,नियुक्ति,Назначения,予約,פגישות,Termine,预约
+appointments_main_description,Manage your upcoming and past appointments.,Administre sus citas futuras y pasadas.,Gérez vos rendez-vous à venir et passés.,अपनी आगामी और पिछली नियुक्तियों को प्रबंधित करें।,Управляйте предстоящими и прошлыми встречами.,今後の予定と過去の予定を管理します。,נהל את הפגישות הקרובות והקודמים שלך.,Verwalten Sie Ihre bevorstehenden und vergangenen Termine.,管理您即将到来和过去的约会。
+appointments_main_action,New Appointment,Nueva cita,Nouveau rendez-vous,नई नियुक्ति,Новое назначение,新しい予定,מינוי חדש,Neuer Termin,新的约会
+appointments_main_search,Search appointments...,Buscar citas...,Rechercher des rendez-vous...,नियुक्तियाँ खोजें...,Поиск встреч...,予定を検索...,חפש פגישות...,Termine suchen...,搜索约会...
+patients_main_title,Patients,Pacientes,Patients,मरीजों,Пациенты,患者,חולים,Patienten,患者
+patients_main_description,Manage your patient records.,Administre los registros de sus pacientes.,Gérez vos dossiers patients.,अपने मरीज के रिकॉर्ड प्रबंधित करें।,Управляйте записями пациентов.,患者の記録を管理します。,נהל את רישומי המטופלים שלך.,Verwalten Sie Ihre Patientenakten.,管理您的患者记录。
+patients_main_action,New Patient,Nuevo Paciente,Nouveau patient,नया रोगी,Новый пациент,新しい患者さん,מטופל חדש,Neuer Patient,新病人
+patients_main_search,Search patient...,Buscar paciente...,Rechercher un patient...,मरीज खोजें...,Найти пациента...,患者を検索...,חפש חולה...,Patient suchen...,搜寻病人...
+records_main_title,Medical Records,Registros médicos,Dossiers médicaux,मेडिकल रिकॉर्ड,Медицинские записи,医療記録,רשומות רפואיות,Krankenakten,医疗记录
+records_main_description,View and manage patient medical records.,Ver y administrar registros médicos de pacientes.,Consultez et gérez les dossiers médicaux des patients.,रोगी के मेडिकल रिकॉर्ड देखें और प्रबंधित करें।,Просмотр и управление медицинскими записями пациентов.,患者の医療記録を表示および管理します。,הצג ונהל את הרשומות הרפואיות של המטופלים.,Patientenakten einsehen und verwalten.,查看和管理患者病历。
+records_main_action,New Record,Nuevo récord,Nouveau record,नया रिकार्ड,Новый рекорд,新記録,שיא חדש,Neuer Rekord,新纪录
+records_main_search,Search medical records...,Buscar registros médicos...,Rechercher des dossiers médicaux...,मेडिकल रिकॉर्ड खोजें...,Поиск медицинских записей...,医療記録を検索...,חפש בתיעוד רפואי...,Krankenakten durchsuchen...,搜索病历...
+billing_main_title,Billing,Facturación,Facturation,बिलिंग,Биллинг,請求する,חיוב,Abrechnung,计费
+billing_main_description,Manage invoices and payments.,Gestionar facturas y pagos.,Gérer les factures et les paiements.,चालान और भुगतान प्रबंधित करें।,Управляйте счетами и платежами.,請求書と支払いを管理します。,ניהול חשבוניות ותשלומים.,Rechnungen und Zahlungen verwalten.,管理发票和付款。
+billing_main_action,New Invoice,Nueva factura,Nouvelle facture,नया चालान,Новый счет,新しい請求書,חשבונית חדשה,Neue Rechnung,新发票
+billing_main_search,Search invoices...,Buscar facturas...,Rechercher des factures...,चालान खोजें...,Поиск счетов...,請求書を検索...,חפש חשבוניות...,Rechnungen suchen...,搜索发票...
+inventory_main_title,Inventory,Inventario,Inventaire,भंडार,Инвентарь,在庫,מְלַאי,Inventar,存货
+inventory_main_description,Manage your inventory items.,Administre los artículos de su inventario.,Gérez vos articles en inventaire.,अपनी इन्वेंट्री आइटम प्रबंधित करें.,Управляйте своими предметами инвентаря.,在庫アイテムを管理します。,נהל את פריטי המלאי שלך.,Verwalten Sie Ihre Inventargegenstände.,管理您的库存物品。
+inventory_main_action,New Item,Nuevo artículo,Nouvel article,नए वस्तु,Новый товар,新しいアイテム,פריט חדש,Neuer Artikel,新商品
+inventory_main_search,Search inventory item...,Buscar artículo en el inventario...,Rechercher un article d'inventaire...,इन्वेंट्री आइटम खोजें...,Поиск предмета инвентаря...,在庫アイテムを検索...,חפש פריט מלאי...,Inventargegenstand durchsuchen...,搜索库存商品...
+settings_main_title,Settings,Ajustes,Paramètres,सेटिंग्स,Настройки,設定,הגדרות,Einstellungen,设置
+settings_main_description,Manage your clinic settings and preferences,Administre la configuración y preferencias de su clínica,Gérez les paramètres et préférences de votre clinique,अपनी क्लिनिक सेटिंग और प्राथमिकताएँ प्रबंधित करें,Управляйте настройками и предпочтениями вашей клиники,クリニックの設定と好みを管理する,נהל את הגדרות והעדפות המרפאה שלך,Verwalten Sie Ihre Klinikeinstellungen und -präferenzen,管理您的诊所设置和偏好
+settings_card_general_title,General,General,Général,सामान्य,Общий,一般的な,כְּלָלִי,Allgemein,一般的
+settings_card_general_description,Basic clinic information and preferences,Información clínica básica y preferencias.,Informations cliniques de base et préférences,बुनियादी क्लिनिक जानकारी और प्राथमिकताएँ,Основная информация о клинике и предпочтения,クリニックの基本情報と希望条件,מידע בסיסי והעדפות מרפאה,Grundlegende Klinikinformationen und Präferenzen,基本诊所信息和偏好
+settings_card_users_title,Users & Permissions,Usuarios y permisos,Utilisateurs et autorisations,उपयोगकर्ता एवं अनुमतियाँ,Пользователи и разрешения,ユーザーと権限,משתמשים והרשאות,Benutzer und Berechtigungen,用户和权限
+settings_card_users_description,Manage staff accounts and access levels,Administrar cuentas de personal y niveles de acceso.,Gérer les comptes du personnel et les niveaux d'accès,स्टाफ खाते और पहुंच स्तर प्रबंधित करें,Управление учетными записями сотрудников и уровнями доступа,スタッフアカウントとアクセスレベルを管理する,ניהול חשבונות צוות ורמות גישה,Verwalten Sie Mitarbeiterkonten und Zugriffsebenen,管理员工帐户和访问级别
+settings_card_billing_title,Billing & Payments,Facturación y pagos,Facturation et paiements,बिलिंग एवं भुगतान,Счета и платежи,請求と支払い,חיוב ותשלומים,Abrechnung und Zahlungen,账单与付款
+settings_card_billing_description,Configure payment methods and invoice settings,Configurar métodos de pago y ajustes de factura,Configurer les modes de paiement et les paramètres de facture,भुगतान के तरीके और चालान सेटिंग कॉन्फ़िगर करें,Настройте способы оплаты и настройки счетов.,支払い方法と請求書の設定を構成する,הגדר אמצעי תשלום והגדרות חשבונית,Konfigurieren Sie Zahlungsmethoden und Rechnungseinstellungen,配置付款方式和发票设置
+settings_card_notifications_title,Notifications,Notificaciones,Notifications,सूचनाएं,Уведомления,通知,התראות,Benachrichtigungen,通知
+settings_card_notifications_description,Set up email and SMS notifications,Configurar notificaciones por correo electrónico y SMS,Configurer les notifications par e-mail et SMS,ईमेल और एसएमएस सूचनाएं सेट करें,Настройка уведомлений по электронной почте и SMS,電子メールと SMS 通知を設定する,"הגדר התראות דוא""ל ו-SMS",Richten Sie E-Mail- und SMS-Benachrichtigungen ein,设置电子邮件和短信通知
+settings_card_integrations_title,Integrations,Integraciones,Intégrations,एकीकरण,Интеграции,統合,אינטגרציות,Integrationen,集成
+settings_card_integrations_description,Connect with third-party services and apps,Conéctese con servicios y aplicaciones de terceros,Connectez-vous avec des services et des applications tiers,तृतीय-पक्ष सेवाओं और ऐप्स से जुड़ें,Подключайтесь к сторонним сервисам и приложениям,サードパーティのサービスやアプリと接続する,התחבר לשירותים ואפליקציות של צד שלישי,Verbinden Sie sich mit Diensten und Apps von Drittanbietern,与第三方服务和应用程序连接
+settings_card_privacy_title,Data & Privacy,Datos y privacidad,Données et confidentialité,डाटा प्राइवेसी,Данные и конфиденциальность,データとプライバシー,נתונים ופרטיות,Daten & Datenschutz,数据与隐私
+settings_card_privacy_description,Manage data retention and privacy settings,Administrar la configuración de privacidad y retención de datos,Gérer les paramètres de conservation et de confidentialité des données,डेटा प्रतिधारण और गोपनीयता सेटिंग्स प्रबंधित करें,Управляйте настройками хранения данных и конфиденциальности.,データ保持とプライバシー設定を管理する,נהל הגדרות שמירת נתונים ופרטיות,Verwalten Sie die Datenaufbewahrungs- und Datenschutzeinstellungen,管理数据保留和隐私设置
+search_placeholder,Search...,Buscar...,Recherche...,खोज...,Поиск...,検索...,לְחַפֵּשׂ...,Suchen...,搜索...
+action_view,View,Vista,Voir,देखना,Вид,ビュー,נוֹף,Sicht,看法
+action_edit,Edit,Editar,Modifier,संपादन करना,Редактировать,編集,לַעֲרוֹך,Bearbeiten,编辑
+action_delete,Delete,Borrar,Supprimer,मिटाना,Удалить,消去,לִמְחוֹק,Löschen,删除
+action_back,Back,Atrás,Dos,पीछे,Назад,戻る,בְּחֲזָרָה,Zurück,后退
+no_results,No results.,Sin resultados.,Aucun résultat.,कोई परिणाम नहीं.,Никаких результатов.,結果はありません。,אין תוצאות.,Keine Ergebnisse.,没有结果。
+previous_page,Previous Page,Página anterior,Page précédente,पिछला पृष्ठ,Предыдущая страница,前のページ,העמוד הקודם,Vorherige Seite,上一页
+next_page,Next Page,Página siguiente,Page suivante,अगला पृष्ठ,Следующая страница,次のページ,העמוד הבא,Nächste Seite,下一页
