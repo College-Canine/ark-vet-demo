@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
@@ -15,59 +15,20 @@ import {
 import { PageHeader } from "@/components/page-header";
 import { DataTable } from "@/components/data-table";
 import { instantiateTranslation } from "@/lib/translation";
-
-// Mock data
-const invoices = [
-  {
-    id: "INV001",
-    date: new Date(2023, 5, 15),
-    patientName: "Max",
-    patientId: "P001",
-    ownerName: "John Smith",
-    amount: 150.0,
-    status: "Paid",
-  },
-  {
-    id: "INV002",
-    date: new Date(2023, 5, 16),
-    patientName: "Bella",
-    patientId: "P002",
-    ownerName: "Sarah Johnson",
-    amount: 200.0,
-    status: "Pending",
-  },
-  {
-    id: "INV003",
-    date: new Date(2023, 5, 17),
-    patientName: "Charlie",
-    patientId: "P003",
-    ownerName: "Michael Brown",
-    amount: 300.0,
-    status: "Overdue",
-  },
-  {
-    id: "INV004",
-    date: new Date(2023, 5, 18),
-    patientName: "Luna",
-    patientId: "P004",
-    ownerName: "Emily Davis",
-    amount: 175.0,
-    status: "Paid",
-  },
-  {
-    id: "INV005",
-    date: new Date(2023, 5, 19),
-    patientName: "Cooper",
-    patientId: "P005",
-    ownerName: "David Wilson",
-    amount: 225.0,
-    status: "Pending",
-  },
-];
+import { Invoice } from "@prisma/client";
 
 export default function BillingPage() {
-  const [data, setData] = useState(invoices);
+  const [data, setData] = useState<Invoice[]>([]);
   const t = instantiateTranslation();
+
+  useEffect(() => {
+    (async () => {
+      const req = await fetch(`/api/invoices`);
+      const json = await req.json();
+
+      setData(json);
+    })();
+  }, []);
 
   const handleDelete = (id: string) => {
     setData(data.filter((item) => item.id !== id));

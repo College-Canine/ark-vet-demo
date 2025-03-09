@@ -40,10 +40,10 @@ export default function MedicalRecordsPage() {
       header: "Record ID",
     },
     {
-      accessorKey: "date",
+      accessorKey: "recordAt",
       header: "Date",
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      cell: ({ row }: any) => format(row.original.date, "MMM d, yyyy"),
+      cell: ({ row }: any) => format(row.original.recordAt, "MMM d, yyyy"),
     },
     {
       accessorKey: "patientName",
@@ -51,7 +51,7 @@ export default function MedicalRecordsPage() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       cell: ({ row }: any) => (
         <div>
-          <div>{row.original.patientName}</div>
+          <div>{row.original.patient.name}</div>
           <div className="text-xs text-muted-foreground">
             ID: {row.original.patientId}
           </div>

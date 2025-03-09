@@ -1,18 +1,24 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { FormLayout } from "@/components/form-layout"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { FormLayout } from "@/components/form-layout";
 
 export default function NewInvoicePage() {
-  const router = useRouter()
+  const router = useRouter();
   const [formData, setFormData] = useState({
     date: "",
     dueDate: "",
@@ -28,74 +34,118 @@ export default function NewInvoicePage() {
     notes: "",
     paymentMethod: "",
     paymentDate: "",
-  })
+  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSelectChange = (name: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleItemChange = (index: number, field: string, value: string) => {
-    const newItems = [...formData.items]
-    newItems[index] = { ...newItems[index], [field]: value }
-    setFormData((prev) => ({ ...prev, items: newItems }))
-  }
+    const newItems = [...formData.items];
+    newItems[index] = { ...newItems[index], [field]: value };
+    setFormData((prev) => ({ ...prev, items: newItems }));
+  };
 
   const addItem = () => {
     setFormData((prev) => ({
       ...prev,
       items: [...prev.items, { description: "", quantity: "", unitPrice: "" }],
-    }))
-  }
+    }));
+  };
 
   const removeItem = (index: number) => {
-    const newItems = formData.items.filter((_, i) => i !== index)
-    setFormData((prev) => ({ ...prev, items: newItems }))
-  }
+    const newItems = formData.items.filter((_, i) => i !== index);
+    setFormData((prev) => ({ ...prev, items: newItems }));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // In a real app, this would be an API call
-    router.push("/dashboard/billing")
-  }
+    router.push("/dashboard/billing");
+  };
 
   return (
-    <FormLayout title="New Invoice" description="Create a new invoice" backHref="/dashboard/billing">
+    <FormLayout
+      title="New Invoice"
+      description="Create a new invoice"
+      backHref="/dashboard/billing"
+    >
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="date">Invoice Date</Label>
-            <Input id="date" name="date" type="date" value={formData.date} onChange={handleChange} required />
+            <Input
+              id="date"
+              name="date"
+              type="date"
+              value={formData.date}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="dueDate">Due Date</Label>
-            <Input id="dueDate" name="dueDate" type="date" value={formData.dueDate} onChange={handleChange} required />
+            <Input
+              id="dueDate"
+              name="dueDate"
+              type="date"
+              value={formData.dueDate}
+              onChange={handleChange}
+              required
+            />
           </div>
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="patientName">Patient Name</Label>
-          <Input id="patientName" name="patientName" value={formData.patientName} onChange={handleChange} required />
+          <Input
+            id="patientName"
+            name="patientName"
+            value={formData.patientName}
+            onChange={handleChange}
+            required
+          />
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="patientId">Patient ID</Label>
-            <Input id="patientId" name="patientId" value={formData.patientId} onChange={handleChange} required />
+            <Input
+              id="patientId"
+              name="patientId"
+              value={formData.patientId}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="patientType">Patient Type</Label>
-            <Input id="patientType" name="patientType" value={formData.patientType} onChange={handleChange} required />
+            <Input
+              id="patientType"
+              name="patientType"
+              value={formData.patientType}
+              onChange={handleChange}
+              required
+            />
           </div>
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="ownerName">Owner Name</Label>
-          <Input id="ownerName" name="ownerName" value={formData.ownerName} onChange={handleChange} required />
+          <Input
+            id="ownerName"
+            name="ownerName"
+            value={formData.ownerName}
+            onChange={handleChange}
+            required
+          />
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
@@ -112,7 +162,13 @@ export default function NewInvoicePage() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="ownerPhone">Owner Phone</Label>
-            <Input id="ownerPhone" name="ownerPhone" value={formData.ownerPhone} onChange={handleChange} required />
+            <Input
+              id="ownerPhone"
+              name="ownerPhone"
+              value={formData.ownerPhone}
+              onChange={handleChange}
+              required
+            />
           </div>
         </div>
 
@@ -125,7 +181,9 @@ export default function NewInvoicePage() {
                 <Input
                   id={`item-description-${index}`}
                   value={item.description}
-                  onChange={(e) => handleItemChange(index, "description", e.target.value)}
+                  onChange={(e) =>
+                    handleItemChange(index, "description", e.target.value)
+                  }
                   required
                 />
               </div>
@@ -135,7 +193,9 @@ export default function NewInvoicePage() {
                   id={`item-quantity-${index}`}
                   type="number"
                   value={item.quantity}
-                  onChange={(e) => handleItemChange(index, "quantity", e.target.value)}
+                  onChange={(e) =>
+                    handleItemChange(index, "quantity", e.target.value)
+                  }
                   required
                 />
               </div>
@@ -146,7 +206,9 @@ export default function NewInvoicePage() {
                   type="number"
                   step="0.01"
                   value={item.unitPrice}
-                  onChange={(e) => handleItemChange(index, "unitPrice", e.target.value)}
+                  onChange={(e) =>
+                    handleItemChange(index, "unitPrice", e.target.value)
+                  }
                   required
                 />
               </div>
@@ -157,7 +219,11 @@ export default function NewInvoicePage() {
               Add Item
             </Button>
             {formData.items.length > 1 && (
-              <Button type="button" variant="outline" onClick={() => removeItem(formData.items.length - 1)}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => removeItem(formData.items.length - 1)}
+              >
                 Remove Last Item
               </Button>
             )}
@@ -179,7 +245,10 @@ export default function NewInvoicePage() {
 
         <div className="space-y-2">
           <Label htmlFor="status">Status</Label>
-          <Select value={formData.status} onValueChange={(value) => handleSelectChange("status", value)}>
+          <Select
+            value={formData.status}
+            onValueChange={(value) => handleSelectChange("status", value)}
+          >
             <SelectTrigger>
               <SelectValue placeholder="Select status" />
             </SelectTrigger>
@@ -193,7 +262,13 @@ export default function NewInvoicePage() {
 
         <div className="space-y-2">
           <Label htmlFor="notes">Notes</Label>
-          <Textarea id="notes" name="notes" value={formData.notes} onChange={handleChange} rows={3} />
+          <Textarea
+            id="notes"
+            name="notes"
+            value={formData.notes}
+            onChange={handleChange}
+            rows={3}
+          />
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
@@ -201,7 +276,9 @@ export default function NewInvoicePage() {
             <Label htmlFor="paymentMethod">Payment Method</Label>
             <Select
               value={formData.paymentMethod}
-              onValueChange={(value) => handleSelectChange("paymentMethod", value)}
+              onValueChange={(value) =>
+                handleSelectChange("paymentMethod", value)
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select payment method" />
@@ -234,6 +311,5 @@ export default function NewInvoicePage() {
         </div>
       </form>
     </FormLayout>
-  )
+  );
 }
-

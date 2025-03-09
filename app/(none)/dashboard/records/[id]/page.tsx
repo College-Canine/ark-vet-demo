@@ -20,6 +20,15 @@ export default async function MedicalRecordDetailPage({
     where: {
       id: parseInt(id),
     },
+    include: {
+      patient: {
+        include: {
+          owner: true,
+          breed: true,
+        },
+      },
+      createdBy: true,
+    },
   });
 
   if (record == null) return notFound();
@@ -39,10 +48,9 @@ export default async function MedicalRecordDetailPage({
             <DetailItem label="Record ID" value={record.id} />
             <DetailItem
               label="Date"
-              value={format(record.date, "MMMM d, yyyy")}
+              value={format(record.recordAt, "MMMM d, yyyy")}
             />
             <DetailItem label="Type" value={record.type} />
-            <DetailItem label="Provider" value={record.provider} />
             <DetailItem
               label="Status"
               value={
@@ -57,17 +65,16 @@ export default async function MedicalRecordDetailPage({
         <div>
           <h3 className="text-lg font-medium">Patient Information</h3>
           <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <DetailItem label="Patient Name" value={record.patientName} />
-            <DetailItem label="Patient ID" value={record.patientId} />
-            <DetailItem label="Patient Type" value={record.patientType} />
-            <DetailItem label="Owner" value={record.ownerName} />
-          </div>
-        </div>
-
-        <div>
-          <h3 className="text-lg font-medium">Description</h3>
-          <div className="mt-3">
-            <p className="text-sm">{record.description}</p>
+            <DetailItem label="Patient Name" value={record.patient.name} />
+            <DetailItem label="Patient ID" value={record.patient.id} />
+            <DetailItem
+              label="Patient Breed"
+              value={record.patient.breed.name}
+            />
+            <DetailItem
+              label="Owner"
+              value={`${record.patient.owner.firstName} ${record.patient.owner.lastName}`}
+            />
           </div>
         </div>
 
@@ -77,7 +84,7 @@ export default async function MedicalRecordDetailPage({
             <p className="text-sm">{record.notes}</p>
           </div>
         </div>
-
+        {/* 
         <div>
           <h3 className="text-lg font-medium">Medications</h3>
           <div className="mt-3">
@@ -93,19 +100,21 @@ export default async function MedicalRecordDetailPage({
               }
             </ul>
           </div>
-        </div>
-
-        <div>
-          <h3 className="text-lg font-medium">Follow-up</h3>
-          <div className="mt-3">
-            <p className="text-sm">{record.followUp}</p>
-          </div>
-        </div>
+        </div> */}
 
         <div>
           <h3 className="text-lg font-medium">Additional Information</h3>
           <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <DetailItem label="Created By" value={record.createdBy} />
+            <DetailItem
+              label="Created By"
+              value={
+                <>
+                  <span>
+                    {record.createdBy.firstName} {record.createdBy.lastName}
+                  </span>
+                </>
+              }
+            />
             <DetailItem
               label="Created At"
               value={format(record.createdAt, "MMMM d, yyyy 'at' h:mm a")}

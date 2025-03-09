@@ -6,7 +6,7 @@ export async function GET() {
   if (!user)
     return Response.json({ error: "Not authenticated." }, { status: 400 });
 
-  const records = await prisma.medicalRecord.findMany({
+  const invoices = await prisma.invoice.findMany({
     where: {
       clinicId: user.clinicId,
     },
@@ -15,7 +15,7 @@ export async function GET() {
     },
   });
 
-  return Response.json(records);
+  return Response.json(invoices);
 }
 
 export async function POST(req: Request) {
@@ -26,19 +26,19 @@ export async function POST(req: Request) {
   try {
     const data = await req.json();
 
-    const record = await prisma.medicalRecord.create({
+    const invoice = await prisma.invoice.create({
       data: {
         clinicId: user.clinicId,
         patientId: data.patientId,
-        createdById: user.id,
-        type: data.type,
+        // createdById: user.id,
+        // type: data.type,
         status: data.status,
-        recordAt: new Date(data.date),
-        notes: data.notes,
+        // invoiceAt: new Date(data.date),
+        // notes: data.notes,
       },
     });
 
-    return Response.json(record);
+    return Response.json(invoice);
   } catch (error) {
     console.log(error?.toString());
     return Response.json(

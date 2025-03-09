@@ -119,7 +119,7 @@ export default function NewMedicalRecordPage() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="patientName">Patient Name</Label>
+          <Label htmlFor="patientName">Patient</Label>
           <PatientSearch
             onSelect={(patientId) => {
               setFormData((prev) => ({ ...prev, patientId: patientId }));

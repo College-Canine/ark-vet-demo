@@ -7,6 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -16,6 +23,7 @@ import {
 } from "@/components/ui/dialog";
 import { Gender } from "@prisma/client";
 import { OwnerSearch } from "../select/owner-search";
+import { BreedSearch } from "../select/breed-search";
 
 type NewPatientModalProps = {
   isOpen: boolean;
@@ -38,6 +46,10 @@ export function NewPatientModal({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSelectChange = (name: string, value: string) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -84,27 +96,29 @@ export function NewPatientModal({
               <Label htmlFor="breed" className="text-right">
                 Breed
               </Label>
-              <Input
-                id="breed"
-                name="breed"
-                value={formData.breed}
-                onChange={handleChange}
-                className="col-span-3"
-                required
+              <BreedSearch
+                onSelect={(item) => {
+                  setFormData((prev) => ({ ...prev, breed: item }));
+                }}
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="gender" className="text-right">
                 Gender
               </Label>
-              <Input
-                id="gender"
-                name="gender"
+              <Select
                 value={formData.gender}
-                onChange={handleChange}
-                className="col-span-3"
-                required
-              />
+                onValueChange={(value) => handleSelectChange("gender", value)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select gender" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="MALE">Male</SelectItem>
+                  <SelectItem value="FEMALE">Female</SelectItem>
+                  <SelectItem value="UNKNOWN">Unknown</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div className="space-y-2">
               <Label htmlFor="gender" className="text-right">
