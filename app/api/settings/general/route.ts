@@ -8,7 +8,7 @@ export async function GET() {
 
   const clinic = await prisma.clinic.findUnique({
     where: {
-      id: 1,
+      id: user.clinicId,
     },
   });
 
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
 
   const body = await req.json();
   const clinic = await prisma.clinic.update({
-    where: { id: 1 },
+    where: { id: user.clinicId },
     data: {
       name: body.name,
       phone: body.phone,

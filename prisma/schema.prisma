@@ -11,6 +11,7 @@ enum Role {
   ADMIN
   VET
   ASSISTANT
+  TECHNICIAN
 }
 
 enum PatientStatus {
