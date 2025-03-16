@@ -50,7 +50,7 @@ model Clinic {
   address        String?
   phone          String?
   email          String?
-  licenseInfo    String?
+  website        String?
   users          User[]
   patients       Patient[]
   appointments   Appointment[]
