@@ -15,10 +15,15 @@ import {
 import { PageHeader } from "@/components/page-header";
 import { DataTable } from "@/components/data-table";
 import { instantiateTranslation } from "@/lib/translation";
-import { Invoice } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import { CellContext } from "@tanstack/react-table";
 
 export default function BillingPage() {
-  const [data, setData] = useState<Invoice[]>([]);
+  const [data, setData] = useState<
+    Prisma.InvoiceGetPayload<{
+      include: { owner: true; patient: true; items: true };
+    }>[]
+  >([]);
   const t = instantiateTranslation();
 
   useEffect(() => {
@@ -42,18 +47,31 @@ export default function BillingPage() {
     {
       accessorKey: "date",
       header: "Date",
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      cell: ({ row }: any) => format(row.original.date, "MMM d, yyyy"),
+      cell: ({
+        row,
+      }: CellContext<
+        Prisma.InvoiceGetPayload<{
+          include: { owner: true; patient: true; items: true };
+        }>,
+        number
+      >) => format(row.original.createdAt, "MMM d, yyyy"),
     },
     {
       accessorKey: "patientName",
       header: "Patient",
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      cell: ({ row }: any) => (
+      cell: ({
+        row,
+      }: CellContext<
+        Prisma.InvoiceGetPayload<{
+          include: { owner: true; patient: true; items: true };
+        }>,
+        number
+      >) => (
         <div>
-          <div>{row.original.patientName}</div>
+          <div>{row.original.patient.name}</div>
           <div className="text-xs text-muted-foreground">
-            ID: {row.original.patientId}
+            ID: {row.original.patient.id}
           </div>
         </div>
       ),
@@ -61,12 +79,41 @@ export default function BillingPage() {
     {
       accessorKey: "ownerName",
       header: "Owner",
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cell: ({
+        row,
+      }: CellContext<
+        Prisma.InvoiceGetPayload<{
+          include: { owner: true; patient: true; items: true };
+        }>,
+        number
+      >) => (
+        <div>
+          <div>
+            {row.original.owner.firstName} {row.original.owner.lastName}
+          </div>
+          <div className="text-xs text-muted-foreground">
+            Phone: {row.original.owner.phone}
+          </div>
+        </div>
+      ),
     },
     {
       accessorKey: "amount",
       header: "Amount",
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      cell: ({ row }: any) => `$${row.original.amount.toFixed(2)}`,
+      cell: ({
+        row,
+      }: CellContext<
+        Prisma.InvoiceGetPayload<{
+          include: { owner: true; patient: true; items: true };
+        }>,
+        number
+      >) =>
+        `$${(
+          row.original.items.reduce((a, b) => a + b.quantity * b.unitPrice, 0) /
+          100
+        ).toFixed(2)}`,
     },
     {
       accessorKey: "status",

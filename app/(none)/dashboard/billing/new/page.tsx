@@ -16,6 +16,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { FormLayout } from "@/components/form-layout";
+import { PatientSearch } from "@/components/select/patient-search";
+import { toast } from "sonner";
 
 export default function NewInvoicePage() {
   const router = useRouter();
@@ -67,8 +69,22 @@ export default function NewInvoicePage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, this would be an API call
-    router.push("/dashboard/billing");
+
+    (async () => {
+      const req = await fetch(`/api/invoices`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const json = await req.json();
+
+      if (json.error) return toast(json.error);
+
+      // In a real app, this would be an API call
+      router.push("/dashboard/billing");
+    })();
   };
 
   return (
@@ -104,76 +120,16 @@ export default function NewInvoicePage() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="patientName">Patient Name</Label>
-          <Input
-            id="patientName"
-            name="patientName"
-            value={formData.patientName}
-            onChange={handleChange}
-            required
+          <Label htmlFor="patient">Patient</Label>
+          <PatientSearch
+            onSelect={function (patient: string): void {
+              setFormData((prev) => ({ ...prev, patientId: patient }));
+            }}
           />
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div className="space-y-2">
-            <Label htmlFor="patientId">Patient ID</Label>
-            <Input
-              id="patientId"
-              name="patientId"
-              value={formData.patientId}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="patientType">Patient Type</Label>
-            <Input
-              id="patientType"
-              name="patientType"
-              value={formData.patientType}
-              onChange={handleChange}
-              required
-            />
-          </div>
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="ownerName">Owner Name</Label>
-          <Input
-            id="ownerName"
-            name="ownerName"
-            value={formData.ownerName}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div className="space-y-2">
-            <Label htmlFor="ownerEmail">Owner Email</Label>
-            <Input
-              id="ownerEmail"
-              name="ownerEmail"
-              type="email"
-              value={formData.ownerEmail}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="ownerPhone">Owner Phone</Label>
-            <Input
-              id="ownerPhone"
-              name="ownerPhone"
-              value={formData.ownerPhone}
-              onChange={handleChange}
-              required
-            />
-          </div>
         </div>
 
         <div>
-          <h3 className="text-lg font-medium mb-4">Invoice Items</h3>
+          <h3 className="text-lg font-medium mb-4">General Charges</h3>
           {formData.items.map((item, index) => (
             <div key={index} className="grid gap-4 sm:grid-cols-3 mb-4">
               <div className="space-y-2">
@@ -230,34 +186,72 @@ export default function NewInvoicePage() {
           </div>
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="amount">Total Amount</Label>
-          <Input
-            id="amount"
-            name="amount"
-            type="number"
-            step="0.01"
-            value={formData.amount}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        {/* <div>
+          <h3 className="text-lg font-medium mb-4">Item Charges</h3>
+          {formData.items.map((item, index) => (
+            <div key={index} className="grid gap-4 sm:grid-cols-3 mb-4">
+              <div className="space-y-2">
+                <Label htmlFor={`item-description-${index}`}>Description</Label>
+                <Input
+                  id={`item-description-${index}`}
+                  value={item.description}
+                  onChange={(e) =>
+                    handleItemChange(index, "description", e.target.value)
+                  }
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor={`item-quantity-${index}`}>Quantity</Label>
+                <Input
+                  id={`item-quantity-${index}`}
+                  type="number"
+                  value={item.quantity}
+                  onChange={(e) =>
+                    handleItemChange(index, "quantity", e.target.value)
+                  }
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor={`item-unitPrice-${index}`}>Unit Price</Label>
+                <Input
+                  id={`item-unitPrice-${index}`}
+                  type="number"
+                  step="0.01"
+                  value={item.unitPrice}
+                  onChange={(e) =>
+                    handleItemChange(index, "unitPrice", e.target.value)
+                  }
+                  required
+                />
+              </div>
+            </div>
+          ))}
+          <div className="flex justify-end gap-2">
+            <Button type="button" variant="outline" onClick={addItem}>
+              Add Item
+            </Button>
+            {formData.items.length > 1 && (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => removeItem(formData.items.length - 1)}
+              >
+                Remove Last Item
+              </Button>
+            )}
+          </div>
+        </div> */}
 
         <div className="space-y-2">
-          <Label htmlFor="status">Status</Label>
-          <Select
-            value={formData.status}
-            onValueChange={(value) => handleSelectChange("status", value)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Pending">Pending</SelectItem>
-              <SelectItem value="Paid">Paid</SelectItem>
-              <SelectItem value="Overdue">Overdue</SelectItem>
-            </SelectContent>
-          </Select>
+          <Label htmlFor="amount">
+            Total Amount:{" "}
+            {formData.items.reduce(
+              (a, b) => a + parseInt(b.quantity) * parseFloat(b.unitPrice),
+              0
+            )}
+          </Label>
         </div>
 
         <div className="space-y-2">
@@ -290,16 +284,6 @@ export default function NewInvoicePage() {
                 <SelectItem value="Bank Transfer">Bank Transfer</SelectItem>
               </SelectContent>
             </Select>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="paymentDate">Payment Date</Label>
-            <Input
-              id="paymentDate"
-              name="paymentDate"
-              type="date"
-              value={formData.paymentDate}
-              onChange={handleChange}
-            />
           </div>
         </div>
 

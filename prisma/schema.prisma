@@ -84,6 +84,7 @@ model User {
   appointments Appointment[]
   sessions     Session[]
   records      MedicalRecord[]
+  invoices     Invoice[]
 }
 
 model Session {
@@ -220,18 +221,36 @@ model Invoice {
   patientId       String
   ownerId         String
   appointmentId   Int?
-  stripeInvoiceId String        @unique
-  amount          Decimal
-  currency        String
+  stripeInvoiceId String?
+  currency        String        @default("USD")
   status          InvoiceStatus
   dueDate         DateTime?
   clinicId        Int
+  notes           String
   patient         Patient       @relation(fields: [patientId], references: [id])
   owner           Owner         @relation(fields: [ownerId], references: [id])
   appointment     Appointment?  @relation(fields: [appointmentId], references: [id])
   clinic          Clinic        @relation(fields: [clinicId], references: [id])
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
+
+  createdBy User   @relation(fields: [userId], references: [id])
+  userId    String
+
+  items InvoiceItem[]
+}
+
+model InvoiceItem {
+  invoiceId   Int
+  description String
+  quantity    Int
+  unitPrice   Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id])
+
+  @@unique([invoiceId, description])
 }
 
 model InventorySupplier {
