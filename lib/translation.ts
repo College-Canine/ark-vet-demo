@@ -49,6 +49,6 @@ export function instantiateTranslation(
     loadTranslations();
   }
   return (key: string): string => {
-    return translations[key]?.[lang] || "";
+    return translations[key]?.[lang] || key;
   };
 }

@@ -19,6 +19,7 @@ interface DetailViewProps {
   editHref?: string;
   onDelete?: () => void;
   children: React.ReactNode;
+  rightSide?: React.ReactNode;
 }
 
 export function DetailView({
@@ -28,6 +29,7 @@ export function DetailView({
   editHref,
   onDelete,
   children,
+  rightSide,
 }: DetailViewProps) {
   const t = instantiateTranslation();
 
@@ -66,8 +68,13 @@ export function DetailView({
       </div>
       <Card>
         <CardHeader>
-          <CardTitle>{title}</CardTitle>
-          {description && <CardDescription>{description}</CardDescription>}
+          <div className="w-full flex flex-row justify-between">
+            <div>
+              <CardTitle>{title}</CardTitle>
+              {description && <CardDescription>{description}</CardDescription>}
+            </div>
+            <div className="flex flex-row gap-2 justify-end">{rightSide}</div>
+          </div>
         </CardHeader>
         <CardContent>{children}</CardContent>
         {(editHref || onDelete) && (

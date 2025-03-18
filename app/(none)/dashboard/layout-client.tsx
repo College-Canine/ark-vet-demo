@@ -131,10 +131,15 @@ export default function DashboardLayout({
           </Link>
         </div>
         <div className="ml-auto flex items-center gap-4">
-          <form className="hidden md:block">
+          <form
+            className="hidden md:block"
+            action="/dashboard/search"
+            method="GET"
+          >
             <div className="relative">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
+                name="q"
                 type="search"
                 placeholder={t("search_placeholder")}
                 className="w-64 rounded-lg bg-gray-50 pl-8 md:w-80"
